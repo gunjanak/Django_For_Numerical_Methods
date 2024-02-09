@@ -12,11 +12,19 @@
     <input type="submit" value="Submit">
    </form>
    <p>{{integration_result}}</p>
+
+   <div>
+        {% if integration_fig %}
+            {{integration_fig|safe}}
+        {% endif %}
+    </div>
     <div>
         {% if trapezoid_fig %}
             {{trapezoid_fig|safe}}
         {% endif %}
     </div>
 
+   
+ 
     
 {% endblock %}

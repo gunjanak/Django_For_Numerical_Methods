@@ -8,10 +8,15 @@ from integration.forms import IntegrationForm
 
 # Create your views here.
 
+
+
+
+
 def index(request):
     return render(request,'index.html')
 
 def trapezoidal(request):
+    integration_fig = None
     trapezoid_fig = None
     integration_result = None
 
@@ -21,8 +26,9 @@ def trapezoidal(request):
             lower_limit = form.cleaned_data['lower_limit']
             upper_limit = form.cleaned_data['upper_limit']
             steps = form.cleaned_data['steps']
-            trapezoid_fig = trapezoid_fig = trapezoid_plot(lower_limit,upper_limit,steps)
+            integration_fig,trapezoid_fig = trapezoid_plot(lower_limit,upper_limit,steps)
             integration_result = trapezoidal_rule(lower_limit,upper_limit,steps)
+          
 
     else:
         form = IntegrationForm()
@@ -30,6 +36,7 @@ def trapezoidal(request):
     
     context = {
         'form':form,
+        'integration_fig':integration_fig,
         'trapezoid_fig':trapezoid_fig,
         'integration_result':integration_result,
     }
