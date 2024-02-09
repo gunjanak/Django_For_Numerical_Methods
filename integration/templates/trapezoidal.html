@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block title %} Integration Using Trapezoidal {% endblock %}
+{% block content %}
+    <h1>
+        Integrate using Trapezoidal Method
+    </h1>
+   <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+   
+    <input type="submit" value="Submit">
+   </form>
+   <p>{{integration_result}}</p>
+    <div>
+        {% if trapezoid_fig %}
+            {{trapezoid_fig|safe}}
+        {% endif %}
+    </div>
+
+    
+{% endblock %}
