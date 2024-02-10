@@ -1,0 +1,34 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block title %} Integration Using Simpson's 1/3 Rule {% endblock %}
+{% block content %}
+    <h1>
+        Integrate using Simpson 1/3 rule Method
+    </h1>
+   <form method="post">
+    {% csrf_token %}
+    
+    {{form|crispy}}
+   
+    <input type="submit" value="Submit">
+   </form>
+   <p>
+    {{error_message}}
+   </p>
+   <p>{{integration_result}}</p>
+
+   <div>
+        {% if integration_fig %}
+            {{integration_fig|safe}}
+        {% endif %}
+    </div>
+    <div>
+        {% if simpson_one_fig %}
+            {{simpson_one_fig|safe}}
+        {% endif %}
+    </div>
+
+   
+ 
+    
+{% endblock %}
