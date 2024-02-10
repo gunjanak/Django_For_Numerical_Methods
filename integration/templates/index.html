@@ -19,4 +19,12 @@
     <p>
         {{result}}
     </p>
+    <div>
+        {% if plot %}
+            {{plot|safe}}
+        {% endif %}
+    </div>
+    <p>
+        {{error_message}}
+    </p>
 {% endblock %}

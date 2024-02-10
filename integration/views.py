@@ -8,11 +8,6 @@ from integration.trapezoid import trapezoid_plot,trapezoidal_rule
 from integration.forms import IntegrationForm, FormulaEvaluationForm
 
 # Create your views here.
-
-
-
-
-
 def index(request):
     if request.method == 'POST':
         form = FormulaEvaluationForm(request.POST)
@@ -21,13 +16,29 @@ def index(request):
             x_value = form.cleaned_data['x_value']
 
             try:
-                x,y = symbols('x y')
+                x = symbols('x')
                 formula = sympify(formula_str)
                 result = formula.subs(x,x_value)
-
                 #Numeric evaluation using numpy
                 result_numeric = float(result.evalf())
-                context = {'form':form,"formula":formula_str,'x_value':x_value,'result':result_numeric}
+                print(result_numeric)
+
+                #Generate plot 
+                x_values = np.arange(x_value-3,x_value+3,0.01)
+                y_values = [float(formula.subs(x, x_val).evalf()) for x_val in x_values]
+                print(formula)
+                fig_express = px.line(x=x_values,y=y_values,
+                           title=formula_str,height=800)
+                fig_express.update_layout(title_x=0.5, title_y=0.95, title_text=f"y={formula_str}")
+                # Change font size of x and y axis labels
+                fig_express.update_xaxes(title_font=dict(size=58),tickfont=dict(size=24))
+                fig_express.update_yaxes(title_font=dict(size=58),tickfont=dict(size=24))
+                fig_express_fig = fig_express.to_html(full_html=False)
+
+                context = {'form':form,"formula":formula_str,'x_value':x_value,
+                           'result':result_numeric,'plot':fig_express_fig}
+                
+
                 return render(request,'index.html',context)
             except Exception as e:
                 error_message = f"Error evaluating the formula: {str(e)}"
@@ -39,6 +50,11 @@ def index(request):
     context = {'form':form}
     return render(request,'index.html',context)
 
+
+
+
+
+
 def trapezoidal(request):
     integration_fig = None
     trapezoid_fig = None
@@ -47,11 +63,27 @@ def trapezoidal(request):
     if request.method == 'POST':
         form = IntegrationForm(request.POST)
         if form.is_valid():
-            lower_limit = form.cleaned_data['lower_limit']
-            upper_limit = form.cleaned_data['upper_limit']
-            steps = form.cleaned_data['steps']
-            integration_fig,trapezoid_fig = trapezoid_plot(lower_limit,upper_limit,steps)
-            integration_result = trapezoidal_rule(lower_limit,upper_limit,steps)
+            try:
+                formula_str = form.cleaned_data['formula']
+                lower_limit = form.cleaned_data['lower_limit']
+                upper_limit = form.cleaned_data['upper_limit']
+                steps = form.cleaned_data['steps']
+                integration_fig,trapezoid_fig = trapezoid_plot(formula_str,lower_limit,
+                                                            upper_limit,steps)
+                integration_result = trapezoidal_rule(formula_str,lower_limit,
+                                                    upper_limit,steps)
+                context = {
+                    'form':form,
+                    'integration_fig':integration_fig,
+                    'trapezoid_fig':trapezoid_fig,
+                    'integration_result':integration_result,
+                }
+                return render(request,"trapezoidal.html",context)
+
+            except Exception as e:
+                error_message = f"Error evaluating the formula: {str(e)}"
+                context = {'form':form,'error_message':error_message}
+                return render(request,'trapezoidal.html',context)
           
 
     else:
@@ -59,9 +91,6 @@ def trapezoidal(request):
 
     
     context = {
-        'form':form,
-        'integration_fig':integration_fig,
-        'trapezoid_fig':trapezoid_fig,
-        'integration_result':integration_result,
-    }
+        'form':form
+        }
     return render(request,"trapezoidal.html",context)
