@@ -1,7 +1,22 @@
 {% extends 'base.html'%}
+{% load crispy_forms_tags %}
 {% block title %} Home - Integration App {% endblock %}
 {% block content %}
     <h1>
         Hello 
     </h1>
+    <form method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" value="Submit">
+    </form>
+    <p>
+        {{formula}}
+    </p>
+    <p>
+        {{x_value}}
+    </p>
+    <p>
+        {{result}}
+    </p>
 {% endblock %}
