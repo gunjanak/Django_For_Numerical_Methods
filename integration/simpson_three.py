@@ -44,7 +44,7 @@ def cubic_curve(x_data,y_data):
         a_fit, b_fit, c_fit,d_fit = params
         # Print the quadratic equation
         cubic_equation = f"{a_fit}*x**3 + {b_fit}*x**2 + {c_fit}*c*x + {d_fit}"
-        print("Cubic Equation:",cubic_equation)
+        # print("Cubic Equation:",cubic_equation)
         
         # Generate x values for the curve
         x_curve = np.linspace(min(x_data[i]), max(x_data[i]), 100)
