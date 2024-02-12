@@ -32,12 +32,13 @@ def trapezoid_plot(formula_str,lower_limit,higher_limit,steps):
 
     #using plotly.express
     x_values = np.arange(lower_limit-0.9,higher_limit+1,0.01)
-    print("******************")
+    # print("******************")
     y_values = [float(formula.subs(x_in, x_val).evalf()) for x_val in x_values]
     
-    print(y_values)
+    # print(y_values)
     fig_express = px.line(x=x_values,y=y_values,
                           title=f'y={formula_str}',height=800)
+    
     
     # Define the shaded region between x=lower_limit and x=upper_limit
     x_shaded, y_shaded = create_shaded_region(formula,lower_limit,higher_limit)
@@ -65,6 +66,9 @@ def trapezoid_plot(formula_str,lower_limit,higher_limit,steps):
                                     fill='toself', fillcolor='rgba(255, 0, 0, 0.2)',
                                     line=dict(color='rgba(255, 255, 255, 0)')))
 
+    # Add scatter plot for Simpson's 1/3 points
+    fig_express.add_trace(go.Scatter(x=x, y=y, mode='markers', marker=dict(color='red', size=10),
+                                     name='Trapezoidal points'))
     
     integration_main = fig_express_integration.to_html(full_html=False)
     trapezoid_fig = fig_express.to_html(full_html=False)

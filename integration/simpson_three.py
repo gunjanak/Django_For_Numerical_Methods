@@ -94,6 +94,7 @@ def simpson_three_plot(formula_str,lower_limit,higher_limit,steps):
     # print(f"**********{x}*****************")
     y = [float(formula.subs(x_in, x_val).evalf()) for x_val in x]
     # print(f"**********{y}*****************")
+    
 
     x_curves,y_curves,parameters = cubic_curve(x,y)
     # print(f"x_curves: {x_curves}")
@@ -111,7 +112,10 @@ def simpson_three_plot(formula_str,lower_limit,higher_limit,steps):
 
     
 
-    
+    # Add scatter plot for Simpson's 3/8 points
+    fig_express.add_trace(go.Scatter(x=x, y=y, mode='markers', marker=dict(color='red', size=10),
+                                     name='Simpson\'s 3/8 Points'))
+     
     integration_main = fig_express_integration.to_html(full_html=False)
     # simpson_one_fig = fig_express.to_html(full_html=False)
     simpson_three_fig = fig_express.to_html(full_html=False)
@@ -139,7 +143,7 @@ def simpsons_three_rule(formula_str,lower_limit,higher_limit,steps):
 
     h = (higher_limit - lower_limit) / steps
     result = float(formula.subs(x_in,higher_limit).evalf()) + float(formula.subs(x_in,lower_limit).evalf())
-    print(result)
+    # print(result)
 
     for i in range(1, steps):
         x = lower_limit + i * h

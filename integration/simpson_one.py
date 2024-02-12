@@ -92,6 +92,7 @@ def simpson_one_plot(formula_str,lower_limit,higher_limit,steps):
     # print(f"**********{x}*****************")
     y = [float(formula.subs(x_in, x_val).evalf()) for x_val in x]
     # print(f"**********{y}*****************")
+    
 
     x_curves,y_curves,parameters = quadratic_curve(x,y)
     # print(f"x_curves: {x_curves}")
@@ -109,7 +110,9 @@ def simpson_one_plot(formula_str,lower_limit,higher_limit,steps):
 
     
 
-    
+    # Add scatter plot for Simpson's 1/3 points
+    fig_express.add_trace(go.Scatter(x=x, y=y, mode='markers', marker=dict(color='red', size=10),
+                                     name='Simpson\'s 1/3 Points'))
     integration_main = fig_express_integration.to_html(full_html=False)
     simpson_one_fig = fig_express.to_html(full_html=False)
     return integration_main,simpson_one_fig
