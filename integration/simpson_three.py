@@ -144,7 +144,7 @@ def simpsons_three_rule(formula_str,lower_limit,higher_limit,steps):
     for i in range(1, steps):
         x = lower_limit + i * h
         weight = 2 if i % 3 == 0 else 3
-        print(f"i: {i} and weight: {weight}")
+        # print(f"i: {i} and weight: {weight}")
         result += weight * float(formula.subs(x_in,x).evalf())
         
 

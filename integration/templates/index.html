@@ -16,16 +16,29 @@
                     <h3 class="card-text">I = {{ integration_result }}</h3>
                 </div>
             </div>
+        {% endif %}
+
+        <div class="mt-4">
+            {% if integration_fig %}
+                {{ integration_fig|safe }}
             {% endif %}
+        </div>
+
+        <div class="mt-4">
+            {% if algorithm_fig %}
+                {{ algorithm_fig|safe }}
+            {% endif %}
+        </div>
+       
 
         <div class="container mt-5">
          
             
-        
+            {% if integration_method == 'trapezoidal' %}
             <div class="card mt-4">
                 <div class="card-body">
                     <h3 class="card-title">
-                        <a href="{% url 'trapezoidal' %}" class="text-decoration-none text-dark">Integration by Trapezoidal Rule</a>
+                        Integration by Trapezoidal Rule
                     </h3>
                     <p class="card-text">
                         The Trapezoidal Rule is a numerical integration method that approximates the definite integral of a function by dividing the area under the curve into trapezoids.
@@ -39,11 +52,13 @@
                     </p>
                 </div>
             </div>
+            {% endif %}
         
+            {% if integration_method == 'simpson_one' %}
             <div class="card mt-4">
                 <div class="card-body">
                     <h3 class="card-title">
-                        <a href="{% url 'simpson_one' %}" class="text-decoration-none text-dark">Integration by Simpson's 1/3 Rule</a>
+                        Integration by Simpson's 1/3 Rule
                     </h3>
                     <p class="card-text">
                         Simpson's 1/3 Rule is a numerical integration method that approximates the definite integral of a function by dividing the area under the curve into segments of parabolas. It is given by the formula:
@@ -56,10 +71,13 @@
                     </p>
                 </div>
             </div>
+            {% endif %}
+
+            {% if integration_method == 'simpson_three' %}
             <div class="card mt-4">
                 <div class="card-body">
                     <h3 class="card-title">
-                        <a href="{% url 'simpson_three' %}" class="text-decoration-none text-dark">Integration by Simpson's 3/8 Rule</a>
+                        Integration by Simpson's 3/8 Rule
                     </h3>
                     <p class="card-text">
                         Simpson's 3/8 Rule is a numerical integration method that approximates the definite integral of a function by dividing the area under the curve into segments of cubic polynomials. It is given by the formula:
@@ -72,13 +90,49 @@
                     </p>
                 </div>
             </div>
-            
+            {% endif %}
+
+
+            {% if integration_method == 'gauss_two_point' %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        Integration by Gauss Quadrature (Two Points)
+                    </h3>
+                    <p class="card-text">
+                        Gauss Quadrature with two points is a numerical integration method that approximates the definite integral of a function. It is given by the formula:
+                    </p>
+                    <p class="card-text">
+                        \[ \text{integral} \approx \frac{b - a}{2} \left[ f\left(\frac{b - a}{2} \cdot x_1 + \frac{a + b}{2}\right) + f\left(\frac{b - a}{2} \cdot x_2 + \frac{a + b}{2}\right) \right] \]
+                    </p>
+                    <p class="card-text">
+                        Where \(a\) and \(b\) are the lower and upper limits of integration, \(x_1 = -\frac{1}{\sqrt{3}}\), \(x_2 = \frac{1}{\sqrt{3}}\).
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if integration_method == 'gauss_three_point' %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        Integration by Gauss Quadrature (Three Points)
+                    </h3>
+                    <p class="card-text">
+                        Gauss Quadrature with three points is a numerical integration method that approximates the definite integral of a function. It is given by the formula:
+                    </p>
+                    <p class="card-text">
+                        \[ \text{integral} \approx \frac{b - a}{2} \left[ w_1 \cdot f\left(\frac{b - a}{2} \cdot x_1 + \frac{a + b}{2}\right) + w_2 \cdot f\left(\frac{b - a}{2} \cdot x_2 + \frac{a + b}{2}\right) + w_3 \cdot f\left(\frac{b - a}{2} \cdot x_3 + \frac{a + b}{2}\right) \right] \]
+                    </p>
+                    <p class="card-text">
+                        Where \(a\) and \(b\) are the lower and upper limits of integration, and \(x_1 = -\sqrt{\frac{3}{5}}\), \(x_2 = 0\), \(x_3 = \sqrt{\frac{3}{5}}\). The corresponding weights are \(w_1 = \frac{5}{9}\), \(w_2 = \frac{8}{9}\), \(w_3 = \frac{5}{9}\).
+                    </p>
+                </div>
+            </div>
+            {% endif %}
             
         
-            <div class="mt-4">
-                <p>{{ error_message }}</p>
-            </div>
-        </div>
+            
         
         <div class="mt-4">
             <p>{{ error_message }}</p>
