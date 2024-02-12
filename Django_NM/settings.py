@@ -83,12 +83,25 @@ WSGI_APPLICATION = 'Django_NM.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'montu',
+            'USER': 'janak',
+            'PASSWORD': 'Mount@iN',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
+
 # [label django_app/settings.py]
 
 
@@ -150,6 +163,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+import os
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 
 # django-crispy-forms
