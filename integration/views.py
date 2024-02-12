@@ -7,41 +7,33 @@ from sympy import symbols,sympify
 from integration.trapezoid import trapezoid_plot,trapezoidal_rule
 from integration.simpson_one import simpson_one_plot, simpsons_one_rule
 from integration.simpson_three import simpson_three_plot,simpsons_three_rule
+from integration.gauss import gauss_two_point,gauss_three_point
 
-from integration.forms import (IntegrationForm, FormulaEvaluationForm,
+from integration.forms import (IntegrationForm,TrapezoidalForm,
                                SimpsonOneForm,SimpsonThreeForm)
 
 # Create your views here.
 def index(request):
     if request.method == 'POST':
-        form = FormulaEvaluationForm(request.POST)
+        form = IntegrationForm(request.POST)
         if form.is_valid():
-            formula_str = form.cleaned_data['formula']
-            x_value = form.cleaned_data['x_value']
-
             try:
-                x = symbols('x')
-                formula = sympify(formula_str)
-                result = formula.subs(x,x_value)
-                #Numeric evaluation using numpy
-                result_numeric = float(result.evalf())
-                print(result_numeric)
+               
+                formula_str = form.cleaned_data['formula']
+                lower_limit = form.cleaned_data['lower_limit']
+                upper_limit = form.cleaned_data['upper_limit']
+                integration_method = form.cleaned_data['integration_method']
+                if(integration_method == 'gauss_two_point'):
+                    print('gauss_two_point')
+                    integration_result = gauss_two_point(formula_str,lower_limit,upper_limit)
+                elif(integration_method == "gauss_three_point"):
+                    print("gauss three point")
+                    integration_result = gauss_three_point(formula_str,lower_limit,upper_limit)
+                elif(integration_method == 'tratrapezoidal'):
+                    print("trapezoidal")
 
-                #Generate plot 
-                x_values = np.arange(x_value-3,x_value+3,0.01)
-                y_values = [float(formula.subs(x, x_val).evalf()) for x_val in x_values]
-                print(formula)
-                fig_express = px.line(x=x_values,y=y_values,
-                           title=formula_str,height=800)
-                fig_express.update_layout(title_x=0.5, title_y=0.95, title_text=f"y={formula_str}")
-                # Change font size of x and y axis labels
-                fig_express.update_xaxes(title_font=dict(size=58),tickfont=dict(size=24))
-                fig_express.update_yaxes(title_font=dict(size=58),tickfont=dict(size=24))
-                fig_express_fig = fig_express.to_html(full_html=False)
-
-                context = {'form':form,"formula":formula_str,'x_value':x_value,
-                           'result':result_numeric,'plot':fig_express_fig}
-                
+                context = {'form':form,"formula":formula_str,
+                           "integration_result":integration_result}
 
                 return render(request,'index.html',context)
             except Exception as e:
@@ -49,7 +41,7 @@ def index(request):
                 context = {'form':form,'error_message':error_message}
                 return render(request,'index.html',context)
     else:
-        form = FormulaEvaluationForm()
+        form = IntegrationForm()
 
     context = {'form':form}
     return render(request,'index.html',context)
@@ -65,7 +57,7 @@ def trapezoidal(request):
     integration_result = None
 
     if request.method == 'POST':
-        form = IntegrationForm(request.POST)
+        form = TrapezoidalForm(request.POST)
         if form.is_valid():
             try:
                 formula_str = form.cleaned_data['formula']
@@ -91,7 +83,7 @@ def trapezoidal(request):
           
 
     else:
-        form = IntegrationForm()
+        form = TrapezoidalForm()
 
     
     context = {

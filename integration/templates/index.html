@@ -4,7 +4,19 @@
 {% block content %}
    
 
-        
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+        </form>
+
+        {% if integration_result %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h3 class="card-text">I = {{ integration_result }}</h3>
+                </div>
+            </div>
+            {% endif %}
 
         <div class="container mt-5">
          

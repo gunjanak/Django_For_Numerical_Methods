@@ -1,14 +1,30 @@
 from django import forms
 
-class IntegrationForm(forms.Form):
+class TrapezoidalForm(forms.Form):
     formula = forms.CharField(label='Formula',max_length=100)
     lower_limit = forms.FloatField(label='Lower Limit')
     upper_limit = forms.FloatField(label='Upper Limit')
     steps = forms.IntegerField(label='Steps')
     
-class FormulaEvaluationForm(forms.Form):
-    formula = forms.CharField(label='Formula',max_length=100)
-    x_value = forms.FloatField(label='Value of x')
+from django import forms
+
+class IntegrationForm(forms.Form):
+    formula = forms.CharField(label='Formula', max_length=100)
+    lower_limit = forms.FloatField(label='Lower Limit')
+    upper_limit = forms.FloatField(label='Upper Limit')
+    steps = forms.IntegerField(label='Steps')
+    integration_method = forms.ChoiceField(
+        label='Integration Method',
+        choices=[
+            ('gauss_two_point', 'Gauss Quadrature (Two Points)'),
+            ('gauss_three_point', 'Gauss Quadrature (Three Points)'),
+            ('trapezoidal', 'Trapezoidal Method'),
+            # Add more options as needed
+        ],
+        initial='gauss_two_point',  # Set the initial value
+        widget=forms.Select(attrs={'class': 'form-control'})  # Add CSS class for styling
+    )
+
 
 class SimpsonOneForm(forms.Form):
     formula = forms.CharField(label='Formula',max_length=100)
