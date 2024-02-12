@@ -22,6 +22,7 @@ class IntegrationForm(forms.Form):
             ('trapezoidal', 'Trapezoidal Method'),
             ('simpson_one', 'Simpson\'s 1/3'),
             ('simpson_three', 'Simpson\'s 3/8'),
+            ('Romberg_integration','Romberg Integration'),
             # Add more options as needed
         ],
         initial='gauss_two_point',

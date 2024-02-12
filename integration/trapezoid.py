@@ -19,19 +19,23 @@ def trapezoid_plot(formula_str,lower_limit,higher_limit,steps):
     formula = sympify(formula_str)
 
     x_in = symbols('x')
+    
 
     height = (higher_limit - lower_limit)/steps
     x = np.arange(lower_limit,higher_limit,height)
     x = np.append(x,higher_limit)
     x = x.tolist()
-    print(x)
+    # print(x)
     y = [float(formula.subs(x_in, x_val).evalf()) for x_val in x]
-    print(y)
-    print(len(x))
+    # print(y)
+    # print(len(x))
 
     #using plotly.express
-    x_values = np.arange(lower_limit-1,higher_limit+1,0.01)
+    x_values = np.arange(lower_limit-0.9,higher_limit+1,0.01)
+    print("******************")
     y_values = [float(formula.subs(x_in, x_val).evalf()) for x_val in x_values]
+    
+    print(y_values)
     fig_express = px.line(x=x_values,y=y_values,
                           title=f'y={formula_str}',height=800)
     

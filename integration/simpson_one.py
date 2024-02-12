@@ -64,7 +64,7 @@ def simpson_one_plot(formula_str,lower_limit,higher_limit,steps):
     x_in = symbols('x')
 
     #using plotly.express
-    x_values = np.arange(lower_limit-1,higher_limit+1,0.01)
+    x_values = np.arange(lower_limit-0.9,higher_limit+1,0.01)
     y_values = [float(formula.subs(x_in, x_val).evalf()) for x_val in x_values]
     fig_express = px.line(x=x_values,y=y_values,
                           title=f'y={formula_str}',height=800)

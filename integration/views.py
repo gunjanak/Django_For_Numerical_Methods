@@ -8,6 +8,7 @@ from integration.trapezoid import trapezoid_plot,trapezoidal_rule
 from integration.simpson_one import simpson_one_plot, simpsons_one_rule
 from integration.simpson_three import simpson_three_plot,simpsons_three_rule
 from integration.gauss import gauss_two_point,gauss_three_point
+from integration.romberg import romberg_integration
 
 from integration.forms import IntegrationForm
 
@@ -53,6 +54,10 @@ def index(request):
                                                             upper_limit,steps)
                     integration_result = simpsons_three_rule(formula_str,lower_limit,
                                                     upper_limit,steps)
+                elif(integration_method == 'Romberg_integration'):
+                    print("Romberg Integration")
+                    integration_result = romberg_integration(formula_str,lower_limit,upper_limit,steps)
+
 
 
                 context = {'form':form,

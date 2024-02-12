@@ -130,6 +130,37 @@
                 </div>
             </div>
             {% endif %}
+
+            {% if integration_method == 'Romberg_integration' %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        Integration by Romberg Method
+                    </h3>
+                    <p class="card-text">
+                        Romberg Integration is a numerical method that improves the accuracy of the trapezoidal rule by extrapolating the results. It is given by the formula:
+                    </p>
+                    <p class="card-text">
+                        \[ \text{integral} \approx R_{n,n} \]
+                    </p>
+                    <p class="card-text">
+                        Where \( R_{i,j} \) is computed using the recursive formula:
+                    </p>
+                    <p class="card-text">
+                        \[ R_{i,j} = \frac{4^j R_{i,j-1} - R_{i-1,j-1}}{4^j - 1} \]
+                    </p>
+                    <p class="card-text">
+                        And \( R_{i,0} \) is calculated using the trapezoidal rule:
+                    </p>
+                    <p class="card-text">
+                        \[ R_{i,0} = \frac{h}{2} \left[ f(a) + f(b) + 2 \sum_{k=1}^{2^{i-1}} f\left(a + \frac{k \cdot h}{2^{i-1}}\right) \right] \]
+                    </p>
+                    <p class="card-text">
+                        Where \(a\) and \(b\) are the lower and upper limits of integration, \(h = \frac{b - a}{2^{i-1}}\), and \(n\) is the number of iterations.
+                    </p>
+                </div>
+            </div>
+            {% endif %}
             
         
             
