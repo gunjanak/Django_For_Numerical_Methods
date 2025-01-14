@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load matrix_filters %}  <!-- Load custom filters -->
+{% block title %} Matrix Output {% endblock %}
+{% block content %}
+ 
+  
+<h2>Input Matrix</h2>
+<table border="1">
+    {% for row in matrix_values %}
+    <tr>
+        {% for value in row %}
+        <td>{{ value }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Eigenvalues</h2>
+<ul>
+    {% for eigenvalue in eigenvalues %}
+    <li>{{ eigenvalue }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Eigenvectors</h2>
+<table border="1">
+    {% for eigenvector in eigenvectors %}
+    <tr>
+        {% for value in eigenvector %}
+        <td>{{ value }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

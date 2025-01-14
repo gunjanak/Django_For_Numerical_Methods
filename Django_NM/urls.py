@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("integration/",include("integration.urls")),
     path("",include("home.urls")),
+    path("la/",include("LinearAlgebra.urls")),
 ]

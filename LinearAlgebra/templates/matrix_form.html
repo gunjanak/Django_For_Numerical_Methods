@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %} Matrix Input {% endblock %}
+{% block content %}
+  <h1>Matrix Input</h1>
+  
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <div id="matrix-input"></div>
+    
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('id_matrix_size').addEventListener('change', function() {
+      var size = this.value;
+      var matrixInputDiv = document.getElementById('matrix-input');
+      matrixInputDiv.innerHTML = '';
+
+      for (var i = 1; i <= size; i++) {
+        for (var j = 1; j <= size; j++) {
+          matrixInputDiv.innerHTML += `
+            <div class="form-group">
+              <label for="id_matrix_${i}_${j}">Matrix Element (${i},${j}):</label>
+              <input type="number" name="matrix_${i}_${j}" class="form-control" required>
+            </div>
+          `;
+        }
+      }
+    });
+
+    // Trigger change to show input fields on page load based on default selection
+    document.getElementById('id_matrix_size').dispatchEvent(new Event('change'));
+  </script>
+{% endblock %}

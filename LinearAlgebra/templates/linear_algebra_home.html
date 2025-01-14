@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Home - Linear Algebra App {% endblock %}
+{% block content %}
+
+  <h1>
+    Linear Algebra 
+  </h1>
+
+  <div class="container mt-5">
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <a href="#" class="text-decoration-none text-dark">System Of Linear Equations</a>
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <a href="{% url 'eigen_vector' %}" class="text-decoration-none text-dark">Eigen Value and Eigen Vector</a>
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+
+    
+</div>
+{% endblock %}

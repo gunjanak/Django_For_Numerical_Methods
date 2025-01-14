@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Home - Linear Algebra App {% endblock %}
+{% block content %}
+<form method="post" action="{% url 'eigen_vector' %}" id="matrix-form">
+    {% csrf_token %}
+    {{ matrix_form.as_p }}
+  
+    <div id="two-by-two-form" style="display: none;">
+      {{ two_by_two_form.as_p }}
+    </div>
+  
+    <div id="three-by-three-form" style="display: none;">
+      {{ three_by_three_form.as_p }}
+    </div>
+  
+    <button type="submit">Submit</button>
+</form>
+
+{% if two_by_two_matrix_data %}
+  <h2>Two by Two Matrix Data:</h2>
+  <p>Cell 00: {{ two_by_two_matrix_data.cell_00 }}</p>
+  <p>Cell 01: {{ two_by_two_matrix_data.cell_01 }}</p>
+  <p>Cell 10: {{ two_by_two_matrix_data.cell_10 }}</p>
+  <p>Cell 11: {{ two_by_two_matrix_data.cell_11 }}</p>
+{% endif %}
+
+{% if three_by_three_matrix_data %}
+  <h2>Three by Three Matrix Data:</h2>
+  <p>Cell 00: {{ three_by_three_matrix_data.cell_00 }}</p>
+  <p>Cell 01: {{ three_by_three_matrix_data.cell_01 }}</p>
+  <p>Cell 02: {{ three_by_three_matrix_data.cell_02 }}</p>
+  <p>Cell 10: {{ three_by_three_matrix_data.cell_10 }}</p>
+  <p>Cell 11: {{ three_by_three_matrix_data.cell_11 }}</p>
+  <p>Cell 12: {{ three_by_three_matrix_data.cell_12 }}</p>
+  <p>Cell 20: {{ three_by_three_matrix_data.cell_20 }}</p>
+  <p>Cell 21: {{ three_by_three_matrix_data.cell_21 }}</p>
+  <p>Cell 22: {{ three_by_three_matrix_data.cell_22 }}</p>
+{% endif %}
+
+
+  
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('input[name="dimension"]').change(function() {
+        console.log($(this).val());
+        if ($(this).val() == '2') {
+            $('#two-by-two-form').show();
+            $('#three-by-three-form').hide();
+        } else if ($(this).val() == '3') {
+            $('#two-by-two-form').hide();
+            $('#three-by-three-form').show();
+        } else {
+            $('#two-by-two-form').hide();
+            $('#three-by-three-form').hide();
+        }
+    });
+});
+</script>
+{% endblock %}
