@@ -13,7 +13,7 @@
   </form>
 
   <script>
-    document.getElementById('id_matrix_size').addEventListener('change', function() {
+    document.getElementById('id_no_of_equations').addEventListener('change', function() {
       var size = this.value;
       var matrixInputDiv = document.getElementById('matrix-input');
       matrixInputDiv.innerHTML = '';
@@ -27,10 +27,16 @@
             </div>
           `;
         }
+        matrixInputDiv.innerHTML += `
+        <div class="form-group">
+          <label for="id_constant_${i}">Constant in Equation ${i}:</label>
+          <input type="number" name="constant_${i}" class="form-control" step="any" required>
+        </div>
+      `;
       }
     });
 
     // Trigger change to show input fields on page load based on default selection
-    document.getElementById('id_matrix_size').dispatchEvent(new Event('change'));
+    document.getElementById('id_no_of_equations').dispatchEvent(new Event('change'));
   </script>
 {% endblock %}

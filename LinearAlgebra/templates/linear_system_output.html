@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %} Matrix Input {% endblock %}
+{% block content %}
+
+<h1>System of Linear Equations Solution</h1>
+
+<h2>Coefficients Matrix:</h2>
+<table border="1">
+    {% for row in coefficients %}
+    <tr>
+        {% for value in row %}
+        <td>{{ value }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Constants Vector:</h2>
+<ul>
+    {% for constant in constants %}
+    <li>{{ constant }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Solution:</h2>
+<ul>
+    {% for x in solution %}
+    <li>x{{ forloop.counter }} = {{ x }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'linear_input' %}">Solve Another System</a>
+
+{% endblock %}

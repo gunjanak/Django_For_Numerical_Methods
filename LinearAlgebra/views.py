@@ -2,12 +2,58 @@ from django.shortcuts import render
 import numpy as np
 
 
-from .forms import MatrixForm
+from .forms import MatrixForm,LinearSystemForm
 
 
 # Create your views here.
 def index(request):
     return render(request,'linear_algebra_home.html')
+
+def linear_system_view(request):
+    if request.method == 'POST':
+        # Pass 'num_equations' dynamically to the form
+        form = LinearSystemForm(request.POST)
+        if form.is_valid():
+            print("Form is valid")
+            num_equations = int(form.cleaned_data['no_of_equations'])
+            print(num_equations)
+            coefficients = []
+            constants = []
+            
+            coefficients = np.zeros(shape=(num_equations,num_equations))
+            constants = np.zeros(shape=(num_equations,1))
+
+            # Collect matrix values dynamically based on the matrix size
+            for i in range(1, num_equations + 1):
+                for j in range(1, num_equations + 1):
+                    # Dynamically get the values from the POST data using the correct field name
+                    field_name = f'matrix_{i}_{j}'
+                    value = request.POST.get(field_name)
+                    print(f"row: {i}")
+                    print(f"col: {j}")
+                    coefficients[i-1][j-1] = value
+                field_name = f'constant_{i}'
+                value = request.POST.get(field_name)
+                constants[i-1] = value
+
+            print(coefficients)
+            print(constants)
+
+            # Solve the system of linear equations
+            solution = np.linalg.solve(coefficients, constants)
+            print(solution)
+            
+
+            return render(request, 'linear_system_output.html', {
+                'coefficients': coefficients.tolist(),
+                'constants': constants.tolist(),
+                'solution': solution.tolist(),
+            })
+    else:
+        form = LinearSystemForm()
+
+    return render(request, 'linear_system_form.html', {'form': form})
+
 
 
 def matrix_view(request):
