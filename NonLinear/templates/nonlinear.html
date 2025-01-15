@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Home - Linear Algebra App {% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Non Linear Equations</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {{ form.formula.label_tag }}
+            {{ form.formula }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.integration_method.label_tag }}
+            {{ form.integration_method }}
+        </div>
+        
+        <div class="form-group" id="x0-group">
+            {{ form.x0.label_tag }}
+            {{ form.x0 }}
+        </div>
+        
+        <div class="form-group" id="xn-group">
+            {{ form.xn.label_tag }}
+            {{ form.xn }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.error.label_tag }}
+            {{ form.error }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const methodSelector = document.getElementById('method-selector');
+        const x0Group = document.getElementById('x0-group');
+        const xnGroup = document.getElementById('xn-group');
+
+        function updateFields() {
+            const method = methodSelector.value;
+
+            if (method === 'newton_raphson' || method === 'fixed_point') {
+                x0Group.style.display = 'block';
+                xnGroup.style.display = 'none';
+            } else {
+                x0Group.style.display = 'block';
+                xnGroup.style.display = 'block';
+            }
+        }
+
+        methodSelector.addEventListener('change', updateFields);
+        updateFields(); // Initial call to set the correct visibility
+    });
+</script>
+
+{% if result %}
+<p>Place to print results</p>
+{{result}}
+{% endif %}
+{% endblock %}

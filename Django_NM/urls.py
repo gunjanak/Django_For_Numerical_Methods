@@ -23,4 +23,5 @@ urlpatterns = [
     path("",include("home.urls")),
     path("la/",include("LinearAlgebra.urls")),
     path("ode/",include("ODE.urls")),
+    path("nonlinear/",include("NonLinear.urls")),
 ]

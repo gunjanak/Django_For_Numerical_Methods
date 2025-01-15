@@ -7,7 +7,7 @@ from django import forms
 #     steps = forms.IntegerField(label='Steps')
     
 
-from django import forms
+
 
 class IntegrationForm(forms.Form):
     formula = forms.CharField(label='Formula', max_length=100)
