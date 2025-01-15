@@ -5,7 +5,7 @@ from django.shortcuts import render
 from .forms import FormulaInputForm
 from sympy import symbols, sympify
 
-from .ode import euler,heun
+from .ode import euler,heun,rk4
 
 def index(request):
     return render(request,'ode_home.html')
@@ -39,6 +39,9 @@ def initial_value_view(request):
                 final_y = round(euler(formula,initial_x,initial_y,height,final_x),3)
             elif method == "Heun":
                 final_y = round(heun(formula,initial_x,initial_y,height,final_x),3)
+                
+            elif method == "RK":
+                final_y = round(rk4(formula,initial_x,initial_y,height,final_x),3)
             
             
             # Placeholder: You can implement Euler, Heun, or RK methods here
