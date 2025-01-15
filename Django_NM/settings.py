@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'home',
     'LinearAlgebra',
     'integration',
+    'ODE',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

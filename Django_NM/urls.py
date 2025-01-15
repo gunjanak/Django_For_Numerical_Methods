@@ -22,4 +22,5 @@ urlpatterns = [
     path("integration/",include("integration.urls")),
     path("",include("home.urls")),
     path("la/",include("LinearAlgebra.urls")),
+    path("ode/",include("ODE.urls")),
 ]

@@ -1,0 +1,18 @@
+from django import forms
+
+# Define the form
+class FormulaInputForm(forms.Form):
+    formula = forms.CharField(
+        label="Formula",
+        widget=forms.TextInput(attrs={'placeholder': 'Enter a formula like 3*x**2+1 or 2*y/x'}),
+        required=True
+    )
+    initial_x = forms.FloatField(label="Initial Value of x", required=True)
+    initial_y = forms.FloatField(label="Initial Value of y", required=True)
+    height = forms.FloatField(label="Height (h)", required=True)
+    final_x = forms.FloatField(label="Final Value of x", required=True)
+    method = forms.ChoiceField(
+        label="Numerical Method",
+        choices=[('Euler', 'Euler'), ('Heun', 'Heun'), ('RK', 'Runge-Kutta')],
+        required=True
+    )
