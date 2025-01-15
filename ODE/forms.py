@@ -16,3 +16,17 @@ class FormulaInputForm(forms.Form):
         choices=[('Euler', 'Euler'), ('Heun', 'Heun'), ('RK', 'Runge-Kutta')],
         required=True
     )
+
+
+class SecondOdeForm(forms.Form):
+    formula = forms.CharField(
+        label="Formula",
+        widget=forms.TextInput(attrs={"placeholder": "Enter a formula like y''+y'+6x=5 in form 5-6*x-z"}),
+        required=True
+    )
+    initial_x = forms.FloatField(label="Initial Value of x", required=True)
+    initial_y = forms.FloatField(label="Initial Value of y", required=True)
+    initial_z = forms.FloatField(label="Initial Value of z", required=True)
+    height = forms.FloatField(label="Height (h)", required=True)
+    final_x = forms.FloatField(label="Final Value of x", required=True)
+    
