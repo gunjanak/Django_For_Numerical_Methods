@@ -14,3 +14,4 @@ class InterpolationForm(forms.Form):
 
     num_points = forms.ChoiceField(choices=POINT_CHOICES, label="Number of Points")
     algorithm = forms.ChoiceField(choices=ALGORITHM_CHOICES, label="Interpolation Algorithm")
+    x_in = forms.FloatField(label="Value of x_in", required=True, help_text="Enter the x value to interpolate.")
