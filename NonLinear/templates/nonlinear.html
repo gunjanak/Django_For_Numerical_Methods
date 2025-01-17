@@ -59,8 +59,53 @@
     });
 </script>
 
-{% if result %}
-<p>Place to print results</p>
-{{result}}
+
+
 {% endif %}
+{% if result %}
+<div class="result-container mt-4">
+    <h3>Computation Results</h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Formula</strong></td>
+                <td>{{ result.formula }}</td>
+            </tr>
+            <tr>
+                <td><strong>Method</strong></td>
+                <td>{{ result.method }}</td>
+            </tr>
+            <tr>
+                <td><strong>x0</strong></td>
+                <td>{{ result.x0 }}</td>
+            </tr>
+            <tr>
+                <td><strong>xn</strong></td>
+                <td>{{ result.xn }}</td>
+            </tr>
+            <tr>
+                <td><strong>Error</strong></td>
+                <td>{{ result.error }}</td>
+            </tr>
+            <tr>
+                <td><strong>Output</strong></td>
+                <td>{{ result.output }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+
+{% if message %}
+    <div class="alert alert-warning mt-3">
+        <strong>Message:</strong> {{ message }}
+    </div>
+    {% endif %}
 {% endblock %}
