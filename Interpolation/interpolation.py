@@ -7,6 +7,162 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 
 
+import numpy as np
+import plotly.graph_objects as go
+
+import numpy as np
+import plotly.graph_objects as go
+
+def newton_backward_divided_difference(x_points, y_points, x_val):
+    """
+    Perform Newton's Backward Interpolation and plot the result using Plotly.
+
+    Args:
+        x_points (list or np.ndarray): X data points.
+        y_points (list or np.ndarray): Y data points.
+        x_val (float): The x-value at which to evaluate the interpolation.
+
+    Returns:
+        tuple: The interpolated value at x_val, the backward difference table, and the Plotly figure.
+    """
+    # Number of points
+    n = len(x_points)
+
+    # Check if the x values are equally spaced
+    h = x_points[1] - x_points[0]
+    if not all(abs(x_points[i + 1] - x_points[i] - h) < 1e-9 for i in range(n - 1)):
+        raise ValueError("x values must be equally spaced for Newton's Backward Interpolation.")
+
+    # Create the backward difference table
+    backward_diff = np.zeros((n, n + 1))
+    backward_diff[:, 0] = x_points
+    backward_diff[:, 1] = y_points
+
+    for j in range(2, n + 1):
+        for i in range(j - 1, n):
+            backward_diff[i, j] = backward_diff[i, j - 1] - backward_diff[i - 1, j - 1]
+
+    # Calculate p for interpolation
+    p = (x_val - x_points[-1]) / h
+
+    # Calculate the interpolated value using the formula
+    result = backward_diff[n - 1, 1]
+    term = 1.0
+    for i in range(1, n):
+        term *= (p + (i - 1))  # Multiply by p(p+1)(p+2)... as per the formula
+        result += (term / np.math.factorial(i)) * backward_diff[n - 1, i + 1]
+
+    # Generate interpolated values for plotting
+    x_fit = np.linspace(min(x_points), max(x_points), 500)
+    y_fit = []
+    for xi in x_fit:
+        p_fit = (xi - x_points[-1]) / h
+        yi = backward_diff[n - 1, 1]
+        term_fit = 1.0
+        for i in range(1, n):
+            term_fit *= (p_fit + (i - 1))
+            yi += (term_fit / np.math.factorial(i)) * backward_diff[n - 1, i + 1]
+        y_fit.append(yi)
+
+    # Create the Plotly figure
+    fig = go.Figure()
+    # Add original data points
+    fig.add_trace(go.Scatter(x=x_points, y=y_points, mode='markers', name='Data points', marker=dict(color='red', size=10)))
+    # Add the interpolation curve
+    fig.add_trace(go.Scatter(x=x_fit, y=y_fit, mode='lines', name='Newton interpolation', line=dict(color='blue')))
+    # Add the interpolated point
+    fig.add_trace(go.Scatter(x=[x_val], y=[result], mode='markers', name=f'Interpolated Point ({x_val:.2f}, {result:.2f})', marker=dict(color='green', size=12)))
+
+    # Customize the layout
+    fig.update_layout(
+        title="Newton's Backward Interpolation",
+        xaxis_title='x',
+        yaxis_title='y',
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        template="plotly_white"
+    )
+
+    # Return the result, backward difference table, and figure
+    return result, backward_diff, fig
+
+# Example usage
+# x_points = [1, 2, 3, 4, 5]
+# y_points = [1, 4, 9, 16, 25]
+# x_val = 4.5
+# result, table, fig = newton_backward_interpolation(x_points, y_points, x_val)
+# fig.show()
+
+
+def newton_forward_divided_difference(x_points, y_points, x_val):
+    """
+    Perform Newton's Forward Divided Difference interpolation and plot the result using Plotly.
+
+    Args:
+        x_points (list or np.ndarray): X data points.
+        y_points (list or np.ndarray): Y data points.
+        x_val (float): The x-value at which to evaluate the interpolation.
+
+    Returns:
+        tuple: The interpolated value at x_val, the forward difference table, and the Plotly figure.
+    """
+    # Number of points
+    n = len(x_points)
+
+    # Check if the x values are equally spaced
+    h = x_points[1] - x_points[0]
+    if not all(abs(x_points[i + 1] - x_points[i] - h) < 1e-9 for i in range(n - 1)):
+        raise ValueError("x values must be equally spaced for Newton's Forward Divided Difference.")
+
+    # Create the forward difference table
+    forward_diff = np.zeros((n, n))
+    forward_diff[:, 0] = y_points
+
+    for j in range(1, n):
+        for i in range(n - j):
+            forward_diff[i, j] = forward_diff[i + 1, j - 1] - forward_diff[i, j - 1]
+
+    # Calculate the interpolated value
+    result = forward_diff[0, 0]
+    term = 1.0
+    factorial = 1
+    for i in range(1, n):
+        term *= (x_val - x_points[0]) / (i * h)
+        result += term * forward_diff[0, i]
+
+    # Generate interpolated values for plotting
+    x_fit = np.linspace(min(x_points), max(x_points), 500)
+    y_fit = []
+    for xi in x_fit:
+        yi = forward_diff[0, 0]
+        term = 1.0
+        factorial = 1
+        for i in range(1, n):
+            term *= (xi - x_points[0]) / (i * h)
+            yi += term * forward_diff[0, i]
+        y_fit.append(yi)
+
+    # Create the Plotly figure
+    fig = go.Figure()
+    # Add original data points
+    fig.add_trace(go.Scatter(x=x_points, y=y_points, mode='markers', name='Data points', marker=dict(color='red', size=10)))
+    # Add the interpolation curve
+    fig.add_trace(go.Scatter(x=x_fit, y=y_fit, mode='lines', name='Newton interpolation', line=dict(color='blue')))
+    # Add the interpolated point
+    fig.add_trace(go.Scatter(x=[x_val], y=[result], mode='markers', name=f'Interpolated Point ({x_val:.2f}, {result:.2f})', marker=dict(color='green', size=12)))
+
+    # Customize the layout
+    fig.update_layout(
+        title="Newton's Forward Divided Difference Interpolation",
+        xaxis_title='x',
+        yaxis_title='y',
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        template="plotly_white"
+    )
+
+    # Return the result, forward difference table, and figure
+    return result, forward_diff, fig
+
+
 def polynomial_regression(x_points, y_points, x_in, degree=2):
     """
     Perform polynomial regression of the specified degree, evaluate at x_in, and plot the result using Plotly.
@@ -177,6 +333,9 @@ def cubic_spline_interpolation(x_points, y_points, x_val):
 
     return result, fig
 
+
+
+
 def newton_divided_difference(x_points, y_points, x_val):
     """
     Perform Newton's Central Divided Difference interpolation and plot the result using Plotly.
@@ -187,35 +346,36 @@ def newton_divided_difference(x_points, y_points, x_val):
         x_val (float): The x-value at which to evaluate the interpolation.
 
     Returns:
-        tuple: The interpolated value at x_val and the Plotly figure.
+        tuple: The interpolated value at x_val, the divided difference table, and the Plotly figure.
     """
     # Number of points
     n = len(x_points)
 
-    # Create the divided difference table
-    divided_diff = np.zeros((n, n))
-    divided_diff[:, 0] = y_points
+    # Create the divided difference table with an extra column for x values
+    divided_diff = np.zeros((n, n + 1))
+    divided_diff[:, 0] = x_points
+    divided_diff[:, 1] = y_points
 
-    for j in range(1, n):
-        for i in range(n - j):
-            divided_diff[i, j] = (divided_diff[i + 1, j - 1] - divided_diff[i, j - 1]) / (x_points[i + j] - x_points[i])
+    for j in range(2, n + 1):
+        for i in range(n - j + 1):
+            divided_diff[i, j] = (divided_diff[i + 1, j - 1] - divided_diff[i, j - 1]) / (x_points[i + j - 1] - x_points[i])
 
     # Calculate the interpolated value
-    result = divided_diff[0, 0]
+    result = divided_diff[0, 1]
     term = 1.0
     for i in range(1, n):
         term *= (x_val - x_points[i - 1])
-        result += term * divided_diff[0, i]
+        result += term * divided_diff[0, i + 1]
 
     # Generate interpolated values for plotting
     x_fit = np.linspace(min(x_points), max(x_points), 500)
     y_fit = []
     for xi in x_fit:
-        yi = divided_diff[0, 0]
+        yi = divided_diff[0, 1]
         term = 1.0
         for i in range(1, n):
             term *= (xi - x_points[i - 1])
-            yi += term * divided_diff[0, i]
+            yi += term * divided_diff[0, i + 1]
         y_fit.append(yi)
 
     # Create the Plotly figure
@@ -236,7 +396,9 @@ def newton_divided_difference(x_points, y_points, x_val):
         template="plotly_white"
     )
 
-    return result, fig
+    # Return the result, divided difference table, and figure
+    return result, divided_diff, fig
+
 
 
 

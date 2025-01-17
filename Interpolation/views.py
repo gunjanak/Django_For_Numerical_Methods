@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from .forms import InterpolationForm
 from .interpolation import (lagrange_interpolation, newton_divided_difference,cubic_spline_interpolation,
-                            linear_regression,polynomial_regression)
+                            linear_regression,polynomial_regression,newton_forward_divided_difference,
+                            newton_backward_divided_difference)
 import plotly.io as pio
 
 def interpolation_view(request):
@@ -16,7 +17,12 @@ def interpolation_view(request):
             x_in = float(request.POST.get('x_in'))
 
             if algorithm == "cdd":
-                y_out,figure = newton_divided_difference(x_values,y_values,x_in)
+                y_out,divided_diff,figure = newton_divided_difference(x_values,y_values,x_in)
+            elif algorithm == "fdd":
+                y_out,divided_diff,figure = newton_forward_divided_difference(x_values,y_values,x_in)
+            elif algorithm == "bdd":
+                y_out,divided_diff,figure = newton_backward_divided_difference(x_values,y_values,x_in)
+                
             elif algorithm == "lagrange":
                 # Perform interpolation
                 y_out, figure = lagrange_interpolation(x_values, y_values, x_in)
@@ -41,6 +47,7 @@ def interpolation_view(request):
                 'X_in': x_in,
                 'Y_out': y_out,
                 'plot_json': plot_json,
+                'divided_difference_table':divided_diff,
             }
 
             return render(request, 'interpolation.html', {'form': form, 'result': result})

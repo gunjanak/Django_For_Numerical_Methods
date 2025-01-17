@@ -45,6 +45,26 @@
     <p><strong>X<sub>in</sub>:</strong> {{ result.X_in }}</p>
     <p><strong>Y<sub>out</sub>:</strong> {{ result.Y_out }}</p>
 
+    <h2>Divided Difference Table</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                {% for col in result.divided_difference_table.0 %}
+                    <th>{{ forloop.counter0 }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result.divided_difference_table %}
+                <tr>
+                    {% for value in row %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <h2>Interpolation Plot</h2>
     <div id="plot-container"></div>
 
