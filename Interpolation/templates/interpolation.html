@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Integration Using Simpson's 1/3 Rule {% endblock %}
+{% block content %}
+
+    <h1>Interpolation Input</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <div id="points-input"></div>
+        
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('id_num_points').addEventListener('change', function() {
+            var numPoints = parseInt(this.value);
+            var pointsInputDiv = document.getElementById('points-input');
+            pointsInputDiv.innerHTML = ''; // Clear existing inputs
+
+            for (var i = 1; i <= numPoints; i++) {
+                pointsInputDiv.innerHTML += `
+                    <div class="form-group">
+                        <label for="id_x_${i}">x<sub>${i}</sub>:</label>
+                        <input type="number" name="x_${i}" class="form-control" step="any" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_y_${i}">y<sub>${i}</sub>:</label>
+                        <input type="number" name="y_${i}" class="form-control" step="any" required>
+                    </div>
+                `;
+            }
+        });
+
+        // Trigger change to show fields on page load based on default selection
+        document.getElementById('id_num_points').dispatchEvent(new Event('change'));
+    </script>
+
+{% if result %}
+    {{ result }}
+{% endif %}
+{% endblock %}

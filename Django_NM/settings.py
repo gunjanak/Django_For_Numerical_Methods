@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'integration',
     'ODE',
     'NonLinear',
+    'Interpolation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
