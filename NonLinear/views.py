@@ -21,14 +21,19 @@ def nonlinear_view(request):
             print(f"x0: {x0}")
             print(f"xn: {xn}")
             print(f"Error: {error}")
+            table = None
             
             if method == "newton_raphson":
-                output = round(newton_raphson(formula,x0,error),3)
+                output,table = newton_raphson(formula,x0,error)
+                output = round(output,3)
             elif method == "secant":
-                output = round(secant_method(formula,x0,xn,error),3)
+                output,table = secant_method(formula,x0,xn,error)
+                output = round(output,3)
             
             elif method == "fixed_point":
-                output = round(fixed_point_iteration(formula,x0,error),3)
+                output,table = fixed_point_iteration(formula,x0,error)
+                output = round(output,3)
+                
             
             elif method == "false_position":
                 x = symbols('x')
@@ -43,7 +48,8 @@ def nonlinear_view(request):
                     message = "functional value of xn should be positive"
                     return render(request, 'nonlinear.html', {'form':form,'message':message})
                 else:
-                    output = round(false_position(formula,x0,xn,error),3)
+                    output,table = false_position(formula,x0,xn,error)
+                    output = round(output,3)
             elif method == "bisection":
                 x = symbols('x')
                 # Generate the lambdified function
@@ -57,7 +63,8 @@ def nonlinear_view(request):
                     message = "functional value of xn should be positive"
                     return render(request, 'nonlinear.html', {'form':form,'message':message})
                 else:
-                    output = round(bisection_method(formula,x0,xn,error),3)
+                    output,table = bisection_method(formula,x0,xn,error)
+                    output = round(output,3)
                     
                 
             # Example processing logic (customize as needed)
@@ -68,8 +75,10 @@ def nonlinear_view(request):
                 'xn': xn,
                 'error': error,
                 'output':output,
+                'table':table,
                 
             }
+            print(f"table: {table}")
             return render(request, 'nonlinear.html', {'form':form,'result': result})
     else:
         form = NonlinearEquationForm()
