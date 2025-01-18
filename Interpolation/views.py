@@ -16,6 +16,9 @@ def interpolation_view(request):
             y_values = [float(request.POST.get(f'y_{i}')) for i in range(1, num_points + 1)]
             x_in = float(request.POST.get('x_in'))
 
+            divided_diff = None
+            table_data = None
+            regression_table = None
             if algorithm == "cdd":
                 y_out,divided_diff,figure = newton_divided_difference(x_values,y_values,x_in)
             elif algorithm == "fdd":
@@ -25,15 +28,16 @@ def interpolation_view(request):
                 
             elif algorithm == "lagrange":
                 # Perform interpolation
-                y_out, figure = lagrange_interpolation(x_values, y_values, x_in)
+                y_out,regression_table,figure = lagrange_interpolation(x_values, y_values, x_in)
             elif algorithm == "cubic_spline":
                 y_out,figure = cubic_spline_interpolation(x_values, y_values, x_in)
             
             elif algorithm == "linear":
-                y_out,_,__,figure = linear_regression(x_values, y_values, x_in)
+                y_out,_,__,figure,regression_table = linear_regression(x_values, y_values, x_in)
+                print(regression_table)
             
             elif algorithm == "polynomial":
-                y_out,_,__,figure = polynomial_regression(x_values,y_values,x_in)
+                y_out,_,__,figure,regression_table = polynomial_regression(x_values,y_values,x_in)
                 
 
             # Convert the Plotly figure to JSON
@@ -48,6 +52,8 @@ def interpolation_view(request):
                 'Y_out': y_out,
                 'plot_json': plot_json,
                 'divided_difference_table':divided_diff,
+                'table_data':table_data,
+                'regression_table':regression_table,
             }
 
             return render(request, 'interpolation.html', {'form': form, 'result': result})

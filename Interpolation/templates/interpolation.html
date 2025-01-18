@@ -45,6 +45,7 @@
     <p><strong>X<sub>in</sub>:</strong> {{ result.X_in }}</p>
     <p><strong>Y<sub>out</sub>:</strong> {{ result.Y_out }}</p>
 
+    {% if result.divided_difference_table %}
     <h2>Divided Difference Table</h2>
     <table class="table table-bordered">
         <thead>
@@ -64,6 +65,58 @@
             {% endfor %}
         </tbody>
     </table>
+    {% endif %}
+{% if result.table_data %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Index (i)</th>
+                <th>Term</th>
+                <th>Y Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result.table_data %}
+            <tr>
+                <td>{{ row.i }}</td>
+                <td>{{ row.term }}</td>
+                <td>{{ row.y_value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+{% endif %}
+
+{% if result.regression_table %}
+<div class="container my-4">
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                {% for key, value in result.regression_table.0.items %}
+                    <th>{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result.regression_table %}
+                <tr>
+                    {% for value in row.values %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+
+    
+    
+</div>
+
+{% endif %}
 
     <h2>Interpolation Plot</h2>
     <div id="plot-container"></div>

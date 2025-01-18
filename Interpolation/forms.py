@@ -8,8 +8,8 @@ class InterpolationForm(forms.Form):
         ('fdd', 'Forward Divided Differences (FDD)'),
         ('bdd', 'Backward Divided Differences (BDD)'),
         ('cubic_spline', 'Cubic Spline Interpolation'),
-        ('linear', 'Linear Interpolation'),
-        ('polynomial', 'Polynomial Interpolation'),
+        ('linear', 'Linear Regression'),
+        ('polynomial', 'Polynomial Regression'),
     ]
 
     num_points = forms.ChoiceField(choices=POINT_CHOICES, label="Number of Points")
