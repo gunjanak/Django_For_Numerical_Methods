@@ -10,7 +10,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">
-                            <a href="{% url 'home_nm' %}" class="text-decoration-none text-dark">Numerical Methods</a>
+                            <a href="{% url 'integration' %}" class="text-decoration-none text-dark">Integration</a>
                         </h3>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">
-                            <a href="#" class="text-decoration-none text-dark">Machine Learning</a>
+                            <a href="{% url 'interpolation' %}" class="text-decoration-none text-dark">Interpolation</a>
                         </h3>
                     </div>
                 </div>
@@ -30,46 +30,43 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">
-                            <a href="#" class="text-decoration-none text-dark">Operating Systems</a>
+                            <a href="{% url 'nonlinear' %}" class="text-decoration-none text-dark">Non-Linear Equation</a>
                         </h3>
                     </div>
                 </div>
             </div>
-
-
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">
-                            <a href="#" class="text-decoration-none text-dark">Discrete Structure</a>
-                        </h3>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">
-                            <a href="#" class="text-decoration-none text-dark">Digital Logic</a>
-                        </h3>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">
-                            <a href="#" class="text-decoration-none text-dark">Probability And Stats</a>
-                        </h3>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
-            
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <a href="{% url 'ode_home' %}" class="text-decoration-none text-dark">Ordinary Differential Equations</a>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <a href="{% url 'pde_home' %}" class="text-decoration-none text-dark">Partial Differential Equations</a>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <a href="{% url 'linearAlgebra' %}" class="text-decoration-none text-dark">Linear Algebra</a>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
