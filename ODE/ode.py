@@ -112,3 +112,42 @@ def second_order_ode(formula,x0,y0,z0,h,xn):
     
     
     
+def system_of_ode(formula_y,formula_z,x0,y0,z0,h,xn):
+    x, y, z = symbols('x y z')
+    f_y_lambdified = lambdify((x, y, z), formula_y)
+    f_z_lambdified = lambdify((x, y, z), formula_z)
+    
+    steps = int((xn-x0)/h)
+    xi = x0
+    yi = y0
+    zi = z0
+    for i in range(steps):
+        m1y = f_y_lambdified(xi,yi,zi)
+        m1z = f_z_lambdified(xi,yi,zi)
+       
+        xtemp = xi+h
+        ytemp = yi + h*m1y
+        ztemp = zi + h*m1z
+        print(f"xtemp: {xtemp}")
+        print(f"ytemp: {ytemp}")
+        print(f"ztemp: {ztemp}")
+        m2y = f_y_lambdified(xtemp,ytemp,ztemp)
+        m2z = f_z_lambdified(xtemp,ytemp,ztemp)
+        print(f"m1y: {m1y}")
+        print(f"m1z: {m1z}")
+        print(f"m2y: {m2y}")
+        print(f"m2z: {m2z}")
+        my = (m1y+m2y)/2
+        mz = (m1z+m2z)/2
+        print(f"my: {my}")
+        print(f"mz: {mz}")
+        
+        
+        yi = yi+my*h
+        zi = zi + mz*h
+        xi = xi+h
+        print(f"xi: {xi}")
+        print(f"yi: {yi}")
+        print(f"zi: {zi}")
+    
+    return yi,zi

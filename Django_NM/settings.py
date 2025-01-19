@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'LinearAlgebra',
     'integration',
     'ODE',
+    'PDE',
     'NonLinear',
     'Interpolation',
     'django.contrib.admin',

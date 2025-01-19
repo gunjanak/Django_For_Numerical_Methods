@@ -3,7 +3,6 @@ from sympy import symbols, sympify, lambdify, diff
 
 def fixed_point_iteration(formula,x0,E):
     print("This is Fixed Point Iteration")
-    print("This is Bisection method")
     x = symbols('x')
     f_lambdified = lambdify(x,formula)
     error = 5000
@@ -13,8 +12,6 @@ def fixed_point_iteration(formula,x0,E):
         iteration += 1
         x1 = f_lambdified(x0)
         error = abs((x1-x0)/x1)
-        # print(f"X0: {x0}")
-        # print(f"X1: {x1}")
         table.append({
             'iteration': iteration,
             'xn': x0,

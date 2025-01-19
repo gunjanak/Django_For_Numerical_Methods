@@ -30,3 +30,21 @@ class SecondOdeForm(forms.Form):
     height = forms.FloatField(label="Height (h)", required=True)
     final_x = forms.FloatField(label="Final Value of x", required=True)
     
+class SystemOfOdeForm(forms.Form):
+    formula_y = forms.CharField(
+        label="Formula",
+        widget=forms.TextInput(attrs={"placeholder": "Enter a formula like y'=x+y+z in form x+y+z"}),
+        required=True
+    )
+    formula_z = forms.CharField(
+        label="Formula",
+        widget=forms.TextInput(attrs={"placeholder": "Enter a formula like z'=1+y+z in form 1+y+z"}),
+        required=True
+    )
+    initial_x = forms.FloatField(label="Initial Value of x", required=True)
+    initial_y = forms.FloatField(label="Initial Value of y", required=True)
+    initial_z = forms.FloatField(label="Initial Value of z", required=True)
+    height = forms.FloatField(label="Height (h)", required=True)
+    final_x = forms.FloatField(label="Final Value of x", required=True)
+    
+    

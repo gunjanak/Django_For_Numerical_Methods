@@ -2,10 +2,10 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render
-from .forms import FormulaInputForm,SecondOdeForm
+from .forms import FormulaInputForm,SecondOdeForm,SystemOfOdeForm
 from sympy import symbols, sympify
 
-from .ode import euler,heun,rk4,second_order_ode
+from .ode import euler,heun,rk4,second_order_ode,system_of_ode
 
 def index(request):
     return render(request,'ode_home.html')
@@ -58,6 +58,67 @@ def initial_value_view(request):
         form = FormulaInputForm()
     
     return render(request, 'ode_form.html', {'form': form})
+
+
+
+def system_of_ode_view(request):
+    result = None
+    if request.method == "POST":
+        form = SystemOfOdeForm(request.POST)
+        if form.is_valid():
+            # Extract the data from the form
+            formula_y = form.cleaned_data['formula_y']
+            formula_z = form.cleaned_data['formula_z']
+            initial_x = form.cleaned_data['initial_x']
+            initial_y = form.cleaned_data['initial_y']
+            initial_z = form.cleaned_data['initial_z']
+            height = form.cleaned_data['height']
+            final_x = form.cleaned_data['final_x']
+            
+            
+            # Perform calculations (e.g., parsing formula or applying the method)
+            # x, y,z = symbols('x y z')  # Define symbolic variables
+            # formula_y = sympify(formula_y)  # Convert formula string to sympy expression
+            
+            # x,y,z = symbols('x y z')  # Define symbolic variables
+            # formula_z = sympify(formula_z)  # Convert formula string to sympy expression
+            
+            print(f"Formula y: {formula_y}")
+            print(f"Formula z: {formula_z}")
+            print(f"x: {initial_x}")
+            print(f"y: {initial_y}")
+            print(f"z: {initial_z}")
+            print(f"h: {height}")
+            print(f"xn: {final_x}")
+            output_y,output_z = system_of_ode(formula_y,formula_z,initial_x,initial_y,initial_z,height,final_x)
+            # final_y = round(second_order_ode(formula,initial_x,initial_y,initial_z,height,final_x),3)
+           
+            
+            
+            # Placeholder: You can implement Euler, Heun, or RK methods here
+            # result = f"Formula: {formula}, Method: {method}, X0: {initial_x},Y0: {initial_y},\
+            # height:{height},Xn:{final_x},Yn:{final_y}"
+            # Prepare the result
+            result = {
+                'Formula y':formula_y,
+                'Formula z':formula_z,
+                'Initial x':initial_x,
+                'Initial y':initial_y,
+                'Initial z':initial_z,
+                'Output y':output_y,
+                'Output z':output_z,
+            }
+            
+            return render(request, 'system_of_ode.html', {'form': form, 'result': result})
+
+            
+            # return render(request, 'ode_form.html', {'form': form, 'result': result})
+
+            
+    else:
+        form = SystemOfOdeForm()
+    
+    return render(request, 'system_of_ode.html', {'form': form})
 
 
 
