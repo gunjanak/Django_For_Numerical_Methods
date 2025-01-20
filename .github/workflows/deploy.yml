@@ -18,7 +18,8 @@ jobs:
       with:
         host: ${{ secrets.143.198.154.131 }}
         username: ${{ secrets.gopal }}
-        key: ${{ secrets.-----BEGIN OPENSSH PRIVATE KEY-----
+        key: ${{ secrets.|
+        -----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABAIHElC2y
 1/QMJYmGyR3ADtAAAAEAAAAAEAAAIXAAAAB3NzaC1yc2EAAAADAQABAAACAQDlAtGzeYKG
 7u6jzls1WMDT/UnRjqcNfZY5acw/9yTgltC/DP3A8YDm4t1y8W/K8jlGHqJrF21JXyq/Yn
@@ -76,3 +77,4 @@ F0llSSuSKtL9QFGSD2G31bpck=
           python manage.py collectstatic --noinput
           sudo systemctl restart gunicorn
           sudo systemctl restart nginx
+
