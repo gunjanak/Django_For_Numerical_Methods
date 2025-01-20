@@ -23,6 +23,7 @@ def interpolation_view(request):
             regression_table = None
             if algorithm == "cdd":
                 y_out,divided_diff,figure = newton_divided_difference(x_values,y_values,x_in)
+                
             elif algorithm == "fdd":
                 y_out,divided_diff,figure = newton_forward_divided_difference(x_values,y_values,x_in)
             elif algorithm == "bdd":
@@ -31,6 +32,7 @@ def interpolation_view(request):
             elif algorithm == "lagrange":
                 # Perform interpolation
                 y_out,regression_table,figure = lagrange_interpolation(x_values, y_values, x_in)
+                
             elif algorithm == "cubic_spline":
                 y_out,figure = cubic_spline_interpolation(x_values, y_values, x_in)
             
@@ -45,6 +47,7 @@ def interpolation_view(request):
             # Convert the Plotly figure to JSON
             plot_json = pio.to_json(figure)
 
+            print(f"CDD: {divided_diff}")
             # Prepare the result
             result = {
                 'X': x_values,
@@ -53,7 +56,7 @@ def interpolation_view(request):
                 'X_in': x_in,
                 'Y_out': y_out,
                 'plot_json': plot_json,
-                'divided_difference_table':divided_diff,
+                'divided_diff':divided_diff,
                 'table_data':table_data,
                 'regression_table':regression_table,
             }

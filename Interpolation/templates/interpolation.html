@@ -37,87 +37,9 @@
     document.getElementById('id_num_points').dispatchEvent(new Event('change'));
 </script>
 
-{% if result %}
-    <h2>Interpolation Results</h2>
-    <p><strong>X Values:</strong> {{ result.X }}</p>
-    <p><strong>Y Values:</strong> {{ result.Y }}</p>
-    <p><strong>Algorithm:</strong> {{ result.Algorithm }}</p>
-    <p><strong>X<sub>in</sub>:</strong> {{ result.X_in }}</p>
-    <p><strong>Y<sub>out</sub>:</strong> {{ result.Y_out }}</p>
-
-    {% if result.divided_difference_table %}
-    <h2>Divided Difference Table</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                {% for col in result.divided_difference_table.0 %}
-                    <th>{{ forloop.counter0 }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in result.divided_difference_table %}
-                <tr>
-                    {% for value in row %}
-                        <td>{{ value }}</td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-    
-{% if result.table_data %}
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Index (i)</th>
-                <th>Term</th>
-                <th>Y Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in result.table_data %}
-            <tr>
-                <td>{{ row.i }}</td>
-                <td>{{ row.term }}</td>
-                <td>{{ row.y_value }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 
 
-
-{% endif %}
-
-{% if result.regression_table %}
-<div class="container my-4">
-    <table class="table table-bordered table-striped">
-        <thead class="table-light">
-            <tr>
-                {% for key, value in result.regression_table.0.items %}
-                    <th>{{ key }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in result.regression_table %}
-                <tr>
-                    {% for value in row.values %}
-                        <td>{{ value }}</td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-
-    
-    
-</div>
-
-{% endif %}
+{% if result.plot_json %}
 
     <h2>Interpolation Plot</h2>
     <div id="plot-container"></div>
@@ -128,5 +50,106 @@
         Plotly.newPlot('plot-container', plotData.data, plotData.layout);
     </script>
 {% endif %}
+
+{% if result %}
+<div style="margin: 20px auto; width: 70%; background-color: #f1f8e9; padding: 20px; border: 1px solid #4CAF50; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #388E3C; text-align: center;">Interpolation Results</h2>
+    <p style="font-size: 18px; color: #2E7D32; line-height: 1.6;">
+        <strong>X Values:</strong> {{ result.X }}
+    </p>
+    <p style="font-size: 18px; color: #2E7D32; line-height: 1.6;">
+        <strong>Y Values:</strong> {{ result.Y }}
+    </p>
+    <p style="font-size: 18px; color: #2E7D32; line-height: 1.6;">
+        <strong>Algorithm:</strong> {{ result.Algorithm }}
+    </p>
+    <p style="font-size: 18px; color: #2E7D32; line-height: 1.6;">
+        <strong>X<sub>in</sub>:</strong> {{ result.X_in }}
+    </p>
+    <p style="font-size: 18px; color: #2E7D32; line-height: 1.6;">
+        <strong>Y<sub>out</sub>:</strong> {{ result.Y_out }}
+    </p>
+
+    {% if result.divided_diff.size > 0 %}
+<div style="margin-top: 20px;">
+    <h2 style="color: #388E3C; text-align: center;">Divided Difference Table</h2>
+    <table class="table table-bordered" style="width: 100%; border-collapse: collapse; background-color: #ffffff; margin-top: 10px;">
+        <thead style="background-color: #C8E6C9;">
+            <tr>
+                {% for i in result.divided_diff.0 %}
+                <th style="padding: 10px; border: 1px solid #4CAF50; text-align: center;">Col {{ forloop.counter }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result.divided_diff %}
+            <tr>
+                {% for value in row %}
+                <td style="padding: 10px; border: 1px solid #4CAF50; text-align: center;">{{ value|floatformat:3 }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+
+
+
+
+{% if result.regression_table %}
+<div style="margin: 20px auto; width: 70%; background-color: #f1f8e9; padding: 20px; border: 1px solid #4CAF50; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #388E3C; text-align: center;">Regression Table</h2>
+    <table class="table table-bordered" style="width: 100%; border-collapse: collapse; background-color: #ffffff; margin-top: 10px;">
+        <thead style="background-color: #C8E6C9;">
+            <tr>
+                {% for key, value in result.regression_table.0.items %}
+                    <th style="padding: 10px; border: 1px solid #4CAF50; text-align: center;">{{ key }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result.regression_table %}
+                <tr>
+                    {% for value in row.values %}
+                        <td style="padding: 10px; border: 1px solid #4CAF50; text-align: center;">{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% if result.table_data %}
+<div style="margin: 20px auto; width: 70%; background-color: #f1f8e9; padding: 20px; border: 1px solid #4CAF50; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #388E3C; text-align: center;">Table Data</h2>
+    <table class="table table-bordered" style="width: 100%; border-collapse: collapse; background-color: #ffffff; margin-top: 10px;">
+        <thead style="background-color: #C8E6C9;">
+            <tr>
+                <th style="padding: 10px; border: 1px solid #4CAF50; text-align: center;">Index (i)</th>
+                <th style="padding: 10px; border: 1px solid #4CAF50; text-align: center;">Term</th>
+                <th style="padding: 10px; border: 1px solid #4CAF50; text-align: center;">Y Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result.table_data %}
+            <tr>
+                <td style="padding: 10px; border: 1px solid #4CAF50; text-align: center;">{{ row.i }}</td>
+                <td style="padding: 10px; border: 1px solid #4CAF50; text-align: center;">{{ row.term }}</td>
+                <td style="padding: 10px; border: 1px solid #4CAF50; text-align: center;">{{ row.y_value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+
+
+</div>
+{% endif %}
+
 
 {% endblock %}

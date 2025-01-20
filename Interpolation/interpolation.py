@@ -85,13 +85,80 @@ def newton_backward_divided_difference(x_points, y_points, x_val):
     # Return the result, backward difference table, and figure
     return result, backward_diff, fig
 
-# Example usage
-# x_points = [1, 2, 3, 4, 5]
-# y_points = [1, 4, 9, 16, 25]
-# x_val = 4.5
-# result, table, fig = newton_backward_interpolation(x_points, y_points, x_val)
-# fig.show()
 
+
+
+# def newton_forward_divided_difference(x_points, y_points, x_val):
+#     """
+#     Perform Newton's Forward Divided Difference interpolation and plot the result using Plotly.
+
+#     Args:
+#         x_points (list or np.ndarray): X data points.
+#         y_points (list or np.ndarray): Y data points.
+#         x_val (float): The x-value at which to evaluate the interpolation.
+
+#     Returns:
+#         tuple: The interpolated value at x_val, the forward difference table, and the Plotly figure.
+#     """
+#     # Number of points
+#     n = len(x_points)
+
+#     # Check if the x values are equally spaced
+#     h = x_points[1] - x_points[0]
+#     if not all(abs(x_points[i + 1] - x_points[i] - h) < 1e-9 for i in range(n - 1)):
+#         raise ValueError("x values must be equally spaced for Newton's Forward Divided Difference.")
+
+#     # Create the forward difference table
+#     forward_diff = np.zeros((n, n))
+    
+#     forward_diff[:, 0] = y_points
+
+#     for j in range(1, n):
+#         for i in range(n - j):
+#             forward_diff[i, j] = forward_diff[i + 1, j - 1] - forward_diff[i, j - 1]
+
+#     # Calculate the interpolated value
+#     result = forward_diff[0, 0]
+#     term = 1.0
+#     factorial = 1
+#     for i in range(1, n):
+#         term *= (x_val - x_points[0]) / (i * h)
+#         result += term * forward_diff[0, i]
+
+#     # Generate interpolated values for plotting
+#     x_fit = np.linspace(min(x_points), max(x_points), 500)
+#     y_fit = []
+#     for xi in x_fit:
+#         yi = forward_diff[0, 0]
+#         term = 1.0
+#         factorial = 1
+#         for i in range(1, n):
+#             term *= (xi - x_points[0]) / (i * h)
+#             yi += term * forward_diff[0, i]
+#         y_fit.append(yi)
+
+#     # Create the Plotly figure
+#     fig = go.Figure()
+#     # Add original data points
+#     fig.add_trace(go.Scatter(x=x_points, y=y_points, mode='markers', name='Data points', marker=dict(color='red', size=10)))
+#     # Add the interpolation curve
+#     fig.add_trace(go.Scatter(x=x_fit, y=y_fit, mode='lines', name='Newton interpolation', line=dict(color='blue')))
+#     # Add the interpolated point
+#     fig.add_trace(go.Scatter(x=[x_val], y=[result], mode='markers', name=f'Interpolated Point ({x_val:.2f}, {result:.2f})', marker=dict(color='green', size=12)))
+
+#     # Customize the layout
+#     fig.update_layout(
+#         title="Newton's Forward Divided Difference Interpolation",
+#         xaxis_title='x',
+#         yaxis_title='y',
+#         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+#         template="plotly_white"
+#     )
+
+#     # Return the result, forward difference table, and figure
+#     return result, forward_diff, fig
+# import numpy as np
+# import plotly.graph_objects as go
 
 def newton_forward_divided_difference(x_points, y_points, x_val):
     """
@@ -113,32 +180,32 @@ def newton_forward_divided_difference(x_points, y_points, x_val):
     if not all(abs(x_points[i + 1] - x_points[i] - h) < 1e-9 for i in range(n - 1)):
         raise ValueError("x values must be equally spaced for Newton's Forward Divided Difference.")
 
-    # Create the forward difference table
-    forward_diff = np.zeros((n, n))
-    forward_diff[:, 0] = y_points
+    # Create the forward difference table with x_points as the first column
+    forward_diff = np.zeros((n, n + 1))
+    forward_diff[:, 0] = x_points  # First column is x_points
+    forward_diff[:, 1] = y_points  # Second column is y_points
 
-    for j in range(1, n):
-        for i in range(n - j):
+    # Fill in the divided differences
+    for j in range(2, n + 1):
+        for i in range(n - j + 1):
             forward_diff[i, j] = forward_diff[i + 1, j - 1] - forward_diff[i, j - 1]
 
     # Calculate the interpolated value
-    result = forward_diff[0, 0]
+    result = forward_diff[0, 1]
     term = 1.0
-    factorial = 1
     for i in range(1, n):
         term *= (x_val - x_points[0]) / (i * h)
-        result += term * forward_diff[0, i]
+        result += term * forward_diff[0, i + 1]
 
     # Generate interpolated values for plotting
     x_fit = np.linspace(min(x_points), max(x_points), 500)
     y_fit = []
     for xi in x_fit:
-        yi = forward_diff[0, 0]
+        yi = forward_diff[0, 1]
         term = 1.0
-        factorial = 1
         for i in range(1, n):
             term *= (xi - x_points[0]) / (i * h)
-            yi += term * forward_diff[0, i]
+            yi += term * forward_diff[0, i + 1]
         y_fit.append(yi)
 
     # Create the Plotly figure
@@ -162,73 +229,6 @@ def newton_forward_divided_difference(x_points, y_points, x_val):
     # Return the result, forward difference table, and figure
     return result, forward_diff, fig
 
-
-# def polynomial_regression(x_points, y_points, x_in, degree=2):
-#     """
-#     Perform polynomial regression of the specified degree, evaluate at x_in, and plot the result using Plotly.
-
-#     Args:
-#         x_points (list or np.ndarray): X data points.
-#         y_points (list or np.ndarray): Y data points.
-#         x_in (float): The x-value at which to evaluate the polynomial regression.
-#         degree (int): Degree of the polynomial (default is 2).
-
-#     Returns:
-#         tuple: The polynomial equation, R² score, the evaluated value at x_in, and the Plotly figure.
-#     """
-#     # Reshape the data
-#     x_points = np.array(x_points).reshape(-1, 1)
-#     y_points = np.array(y_points)
-
-#     # Transform the data for polynomial regression (degree 2)
-#     poly_features = PolynomialFeatures(degree=degree)
-#     x_poly = poly_features.fit_transform(x_points)
-
-#     # Fit the linear regression model to the polynomial-transformed data
-#     model = LinearRegression()
-#     model.fit(x_poly, y_points)
-
-#     # Calculate the regression curve
-#     y_fit = model.predict(x_poly)
-
-#     # Polynomial coefficients
-#     coefficients = model.coef_
-#     intercept = model.intercept_
-
-#     # Polynomial equation
-#     equation = f"y = {coefficients[2]:.4f}x² + {coefficients[1]:.4f}x + {intercept:.4f}"
-
-#     # R² score
-#     r2_score = model.score(x_poly, y_points)
-
-#     # Evaluate at x_in
-#     x_in_poly = poly_features.transform([[x_in]])
-#     y_in = model.predict(x_in_poly)[0]
-
-#     # Generate data for the curve plot
-#     x_fit = np.linspace(min(x_points), max(x_points), 500).reshape(-1, 1)
-#     x_fit_poly = poly_features.transform(x_fit)
-#     y_fit_plot = model.predict(x_fit_poly)
-
-#     # Create the Plotly figure
-#     fig = go.Figure()
-#     # Add original data points
-#     fig.add_trace(go.Scatter(x=x_points.flatten(), y=y_points, mode='markers', name='Data points', marker=dict(color='red', size=10)))
-#     # Add polynomial regression curve
-#     fig.add_trace(go.Scatter(x=x_fit.flatten(), y=y_fit_plot, mode='lines', name=f'Polynomial Regression (Degree {degree})', line=dict(color='blue')))
-#     # Add the evaluated point (x_in, y_in)
-#     fig.add_trace(go.Scatter(x=[x_in], y=[y_in], mode='markers', name=f'Evaluated Point ({x_in:.2f}, {y_in:.2f})', marker=dict(color='green', size=12)))
-
-#     # Customize the layout
-#     fig.update_layout(
-#         title=f'Polynomial Regression (Degree {degree})<br>{equation} (R² = {r2_score:.4f})',
-#         xaxis_title='x',
-#         yaxis_title='y',
-#         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-#         template="plotly_white"
-#     )
-
-#     return equation, r2_score, y_in, fig
 
 
 
@@ -318,13 +318,13 @@ def polynomial_regression(x_points, y_points, x_in, degree=2):
 
     # Add sums for each column
     sum_row = {
-        'x': np.sum(x_points),
-        'y': np.sum(y_points),
-        'x2': np.sum(x2 for x2 in (x ** 2 for x in x_points.flatten())),
-        'x3': np.sum(x3 for x3 in (x ** 3 for x in x_points.flatten())),
-        'x4': np.sum(x4 for x4 in (x ** 4 for x in x_points.flatten())),
-        'xy': np.sum(x * y for x, y in zip(x_points.flatten(), y_points)),
-        'x2y': np.sum(x2 * y for x2, y in zip((x ** 2 for x in x_points.flatten()), y_points))
+        'x': f"Σx = {np.sum(x_points)}",
+        'y': f"Σy = {np.sum(y_points)}",
+        'x2': f"Σx² = {np.sum(x2 for x2 in (x ** 2 for x in x_points.flatten()))}",
+        'x3': f"Σx³ = {np.sum(x3 for x3 in (x ** 3 for x in x_points.flatten()))}",
+        'x4': f"Σx⁴ = {np.sum(x4 for x4 in (x ** 4 for x in x_points.flatten()))}",
+        'xy': f"Σxy = {np.sum(x * y for x, y in zip(x_points.flatten(), y_points))}",
+        'x2y': f"Σx²y = {np.sum(x2 * y for x2, y in zip((x ** 2 for x in x_points.flatten()), y_points))}"
     }
     table_data.append(sum_row)
 
@@ -390,6 +390,7 @@ def newton_divided_difference(x_points, y_points, x_val):
         tuple: The interpolated value at x_val, the divided difference table, and the Plotly figure.
     """
     # Number of points
+    print("Inside Newton Central Divided Difference")
     n = len(x_points)
 
     # Create the divided difference table with an extra column for x values
@@ -436,7 +437,8 @@ def newton_divided_difference(x_points, y_points, x_val):
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         template="plotly_white"
     )
-
+    print(f"Result: {result}")
+    print(f"DD: {divided_diff}")
     # Return the result, divided difference table, and figure
     return result, divided_diff, fig
 
@@ -519,17 +521,6 @@ def lagrange_interpolation(x_points, y_points, x_val):
 
     return result,table_data,fig
 
-# # Example usage
-# x_points = [1, 2, 3]
-# y_points = [4, 5, 6]
-# x_val = 2.5
-# result, fig, table = lagrange_interpolation(x_points, y_points, x_val)
-# print(f"Interpolated value at x = {x_val}: {result}")
-# print("Intermediate values:")
-# for row in table:
-#     print(row)
-
-# fig.show()
 
 
 
