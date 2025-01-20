@@ -2,39 +2,37 @@
 {% load crispy_forms_tags %}
 {% block title %} Home - Linear Algebra App {% endblock %}
 {% block content %}
-<div class="container mt-5">
-    <h2>Non Linear Equations</h2>
-    <form method="post">
-        {% csrf_token %}
-        
-        <div class="form-group">
-            {{ form.formula.label_tag }}
-            {{ form.formula }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.integration_method.label_tag }}
-            {{ form.integration_method }}
-        </div>
-        
-        <div class="form-group" id="x0-group">
-            {{ form.x0.label_tag }}
-            {{ form.x0 }}
-        </div>
-        
-        <div class="form-group" id="xn-group">
-            {{ form.xn.label_tag }}
-            {{ form.xn }}
-        </div>
-        
-        <div class="form-group">
-            {{ form.error.label_tag }}
-            {{ form.error }}
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+
+<h1 style="text-align: center; color: #4CAF50;">Formula Input</h1>
+<form method="post" style="margin: 20px auto; width: 60%; background-color: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.formula.label_tag }}
+        {{ form.formula }}
+    </div>
+    
+    <div class="form-group">
+        {{ form.integration_method.label_tag }}
+        {{ form.integration_method }}
+    </div>
+    
+    <div class="form-group" id="x0-group">
+        {{ form.x0.label_tag }}
+        {{ form.x0 }}
+    </div>
+    
+    <div class="form-group" id="xn-group">
+        {{ form.xn.label_tag }}
+        {{ form.xn }}
+    </div>
+    
+    <div class="form-group">
+        {{ form.error.label_tag }}
+        {{ form.error }}
+    </div>
+    
+    <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Submit</button>
+</form>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -63,44 +61,48 @@
 
 
 {% if result %}
-<div class="result-container mt-4">
-    <h3>Computation Results</h3>
-    <table class="table table-bordered table-striped">
-        <thead>
+
+
+<div class="result-container mt-4" style="margin: 20px auto; width: 60%; background-color: #e8f5e9; padding: 20px; border: 1px solid #4CAF50; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #388E3C; text-align: center;">Computation Results</h2>
+    <table class="table table-bordered table-striped" style="width: 100%; border-collapse: collapse; margin-top: 20px; background-color: #ffffff;">
+        <thead style="background-color: #C8E6C9;">
             <tr>
-                <th>Parameter</th>
-                <th>Value</th>
+                <th style="padding: 10px; border: 1px solid #4CAF50; text-align: left;">Parameter</th>
+                <th style="padding: 10px; border: 1px solid #4CAF50; text-align: left;">Value</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><strong>Formula</strong></td>
-                <td>{{ result.formula }}</td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;"><strong>Formula</strong></td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;">{{ result.formula }}</td>
             </tr>
             <tr>
-                <td><strong>Method</strong></td>
-                <td>{{ result.method }}</td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;"><strong>Method</strong></td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;">{{ result.method }}</td>
             </tr>
             <tr>
-                <td><strong>x0</strong></td>
-                <td>{{ result.x0 }}</td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;"><strong>x0</strong></td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;">{{ result.x0 }}</td>
             </tr>
             <tr>
-                <td><strong>xn</strong></td>
-                <td>{{ result.xn }}</td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;"><strong>xn</strong></td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;">{{ result.xn }}</td>
             </tr>
             <tr>
-                <td><strong>Error</strong></td>
-                <td>{{ result.error }}</td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;"><strong>Error</strong></td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;">{{ result.error }}</td>
             </tr>
             <tr>
-                <td><strong>Output</strong></td>
-                <td>{{ result.output }}</td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;"><strong>Output</strong></td>
+                <td style="padding: 10px; border: 1px solid #4CAF50;">{{ result.output }}</td>
             </tr>
         </tbody>
     </table>
+   
 </div>
 {% endif %}
+
 
 
 {% if message %}

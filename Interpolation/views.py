@@ -15,6 +15,8 @@ def interpolation_view(request):
             x_values = [float(request.POST.get(f'x_{i}')) for i in range(1, num_points + 1)]
             y_values = [float(request.POST.get(f'y_{i}')) for i in range(1, num_points + 1)]
             x_in = float(request.POST.get('x_in'))
+            print(x_values)
+            print(y_values)
 
             divided_diff = None
             table_data = None
