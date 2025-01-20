@@ -1,80 +1,81 @@
+---
 name: Deploy to DigitalOcean
-
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Deploy to DigitalOcean
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.143.198.154.131 }}
+          username: ${{ secrets.gopal }}
+          key: ${{ secrets.| -----BEGIN OPENSSH PRIVATE KEY-----
+            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
+            F0llSSuSKtL9QFGSD2G31bpck= -----END OPENSSH PRIVATE KEY----- }}
+          script: >
+            cd /home/gopal/Documents/Django_For_Numerical_Methods
 
-    - name: Deploy to DigitalOcean
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: ${{ secrets.143.198.154.131 }}
-        username: ${{ secrets.gopal }}
-        key: ${{ secrets.|
-        -----BEGIN OPENSSH PRIVATE KEY-----
-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
-F0llSSuSKtL9QFGSD2G31bpck=
------END OPENSSH PRIVATE KEY----- }}
-        script: |
-          cd /home/gopal/Documents/Django_For_Numerical_Methods
-          git pull origin main
-          source /home/gopal/Documents/Django_For_Numerical_Methods/venv/bin/activate
-          python manage.py migrate
-          python manage.py collectstatic --noinput
-          sudo systemctl restart gunicorn
-          sudo systemctl restart nginx
+            git pull origin main
+
+            source /home/gopal/Documents/Django_For_Numerical_Methods/venv/bin/activate
+
+            python manage.py migrate
+
+            python manage.py collectstatic --noinput
+
+            sudo systemctl restart gunicorn
+
+            sudo systemctl restart nginx
 
