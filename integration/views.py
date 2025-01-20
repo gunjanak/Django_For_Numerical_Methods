@@ -29,6 +29,7 @@ def index(request):
                 upper_limit = form.cleaned_data['upper_limit']
                 steps = form.cleaned_data['steps']
                 integration_method = form.cleaned_data['integration_method']
+                
                 if(integration_method == 'gauss_two_point'):
                     print('gauss_two_point')
                     integration_result = gauss_two_point(formula_str,lower_limit,upper_limit)
@@ -57,6 +58,8 @@ def index(request):
                 elif(integration_method == 'Romberg_integration'):
                     print("Romberg Integration")
                     integration_result = romberg_integration(formula_str,lower_limit,upper_limit,steps)
+                    
+                
 
 
 

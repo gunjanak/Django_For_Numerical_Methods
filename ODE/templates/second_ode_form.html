@@ -18,4 +18,10 @@
     </div>
 {% endif %}
 
+{% if error_message %}
+    <div class="alert alert-warning mt-3">
+        <strong>Message:</strong> {{ error_message }}
+    </div>
+{% endif %}
+
 {% endblock %}
