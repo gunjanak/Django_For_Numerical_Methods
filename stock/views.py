@@ -5,6 +5,7 @@ from .forms import StockSymbolForm
 
 
 from .dataframe_nepse import stock_dataFrame
+from .helper import prepare_data,just_test
 
 def symbol_view(request):
     if request.method == 'POST':
@@ -14,9 +15,21 @@ def symbol_view(request):
                 # Process the form data
                 symbol = form.cleaned_data['text_input']
                 df = stock_dataFrame(symbol)
-                print(df)
-                head = df.head()
-                tail = df.tail()
+                df_show = df.copy()
+                df_show = df_show.reset_index()
+                df_show['Date'] = df_show['Date'].dt.strftime('%b. %-d, %Y')
+                head = df_show.head()
+                tail = df_show.tail()
+                df,model_path = prepare_data(df,symbol)
+                print("**********************")
+                print(df.head())
+                print(model_path)
+                test_mape = just_test(df,model_path)
+                print(test_mape)
+                
+                
+                    
+                
                 # Example processing logic (customize as needed)
                 result = {
                     'symbol': symbol, 
