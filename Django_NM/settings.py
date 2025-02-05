@@ -32,14 +32,15 @@ DEBUG = True
 # ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 # DEBUG = os.getenv("DEBUG", "False") == "True"
 # ALLOWED_HOSTS = ['178.128.111.24']
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['www.janaklal.pro.np','janaklal.pro.np','143.198.154.131', 'localhost']
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['www.janaklal.pro.np','janaklal.pro.np','143.198.154.131', 'localhost']
 # ALLOWED_HOSTS = ['*']
 # /
 # Application definition
 
 INSTALLED_APPS = [
     'home',
+    'stock',
     'LinearAlgebra',
     'integration',
     'ODE',

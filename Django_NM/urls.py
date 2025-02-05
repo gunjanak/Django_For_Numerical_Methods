@@ -26,4 +26,5 @@ urlpatterns = [
     path("pde/",include("PDE.urls")),
     path("nonlinear/",include("NonLinear.urls")),
     path("interpolation/",include("Interpolation.urls")),
+    path("stock/",include("stock.urls")),
 ]
