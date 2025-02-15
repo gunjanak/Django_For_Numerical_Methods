@@ -112,7 +112,7 @@ def train_and_test(df,model_path):
 
 
     model, mape = train_gru_model(df_train_normalized, n_days,model_path=model_path,
-                                epochs=2000)
+                                epochs=50)
     print(len(df_train_normalized))
 
 
@@ -147,16 +147,26 @@ def train_and_test(df,model_path):
 
     # # print(merged_df)
     df_test = merged_df.dropna()
+    last_5_days = df_test_normalized[['Close', 'RSI']].tail(5).values  # Extract last 5 days as input
+    last_5_days_tensor = torch.tensor(last_5_days, dtype=torch.float32).unsqueeze(0)  # Add batch dim
+    with torch.no_grad():
+        predicted_tomorrow_price = model(last_5_days_tensor).item()  # Get prediction
+        print(predicted_tomorrow_price)
+        print(type(predicted_tomorrow_price))
 
-
+    predicted_tomorrow_price = np.array(predicted_tomorrow_price)
+    # # Denormalize the predicted price
+    predicted_tomorrow_price_original = denormalize_with_sklearn(predicted_tomorrow_price, scaler_test, column_index=0)[0]
+    
+    print(predicted_tomorrow_price_original)
 
     # # # # Print the last few rows to verify
-    print(df_test.tail())
+    # print(df_test.tail())
 
 
     
     
-    return mape,test_mape
+    return mape,test_mape,predicted_tomorrow_price_original
 
 
 def just_test(df,model_path):
@@ -198,14 +208,30 @@ def just_test(df,model_path):
 
     # # print(merged_df)
     df_test = merged_df.dropna()
-
-
-
     # # # # Print the last few rows to verify
+    print("******* Actual vs Prediction **************")
+    df_test = df_test[['Close','Predicted Value']]
     print(df_test.tail())
     
-    return test_mape
     
+    
+    last_5_days = df_test_normalized[['Close', 'RSI']].tail(5).values  # Extract last 5 days as input
+    last_5_days_tensor = torch.tensor(last_5_days, dtype=torch.float32).unsqueeze(0)  # Add batch dim
+    with torch.no_grad():
+        predicted_tomorrow_price = model(last_5_days_tensor).item()  # Get prediction
+        print(predicted_tomorrow_price)
+        print(type(predicted_tomorrow_price))
+
+    predicted_tomorrow_price = np.array(predicted_tomorrow_price)
+    # # Denormalize the predicted price
+    predicted_tomorrow_price_original = denormalize_with_sklearn(predicted_tomorrow_price, scaler_test, column_index=0)[0]
+    
+    print(predicted_tomorrow_price_original)
+    
+    
+    
+    
+    return df_test,test_mape,predicted_tomorrow_price_original
 
         
     

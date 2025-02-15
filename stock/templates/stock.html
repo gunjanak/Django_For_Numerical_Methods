@@ -55,5 +55,23 @@
         </tbody>
     </table>
 
+    {% if result.plot_html %}
+        <h3 style="text-align: center; color: #4CAF50;">Test Data Visualization</h3>
+        <div style="width: 80%; margin: 0 auto;">
+            {{ result.plot_html|safe }}
+        </div>
+    {% endif %}
+
+
+    <!-- MAPE, Test MAPE, and Forecasted Price -->
+    <div style="text-align: center; margin-top: 20px;">
+        <h3 style="color: #4CAF50;">Performance Metrics</h3>
+        {% if result.MAPE%}
+        <p><strong>Mean Absolute Percentage Error (MAPE):</strong> {{ result.MAPE }}</p>
+        {% endif %}
+        <p><strong>Test MAPE:</strong> {{ result.Test_MAPE }}</p>
+        <p><strong>Forecasted Price for Tomorrow:</strong> {{ result.Forcasted_Price }}</p>
+    </div>
+
 {% endif %}
 {% endblock %}
