@@ -32,8 +32,8 @@ DEBUG = True
 # ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 # DEBUG = os.getenv("DEBUG", "False") == "True"
 # ALLOWED_HOSTS = ['178.128.111.24']
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['www.janaklal.pro.np','janaklal.pro.np','143.198.154.131', 'localhost']
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['www.janaklal.pro.np','janaklal.pro.np','143.198.154.131', 'localhost']
 # ALLOWED_HOSTS = ['*']
 # /
 # Application definition
@@ -124,7 +124,7 @@ else:
 #         }
 #     }
 # elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-#     if os.getenv("DATABASE_URL", None) is None:
+#     if os.getenv("DATABASE_URL", None) is Nust_test,one:
 #         raise Exception("DATABASE_URL environment variable not defined")
 #     DATABASES = {
 #         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
@@ -180,6 +180,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 # django-crispy-forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
 
 
 

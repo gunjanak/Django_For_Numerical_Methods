@@ -74,13 +74,13 @@ def prepare_data(df,user_input):
 
     df = df.dropna()
     # check if the model for particular symbol exist
-    model_path = f"stock/trained_models/{user_input}_price_forecaster_gru_l2_four_layers.pth"
-    print(model_path)
-    if os.path.exists(model_path):
-        print("File exists")
-    else:
-        print("File does not exist")
-        model_path = "stock/trained_models/price_forecaster_gru_l2_four_layers.pth"
+    # model_path = f"stock/trained_models/{user_input}_price_forecaster_gru_l2_four_layers.pth"
+    # print(model_path)
+    # if os.path.exists(model_path):
+    #     print("File exists")
+    # else:
+    #     print("File does not exist")
+    model_path = "price_forecaster_gru_l2_four_layers.pth"
         
     
     print(df.head())
