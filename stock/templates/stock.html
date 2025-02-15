@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% block title %} Home - Linear Algebra App {% endblock %}
+{% block title %} Home - Stock Price Forecast {% endblock %}
 {% block content %}
 
-<h1 style="text-align: center; color: #4CAF50;">Formula Input</h1>
+<h1 style="text-align: center; color: #4CAF50;">Enter Stock Symbol</h1>
 <form method="post" style="margin: 20px auto; width: 60%; background-color: #f9f9f9; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
     {% csrf_token %}
     {{ form|crispy }}
