@@ -8,16 +8,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.stdout.write("Retraining model...")
-        symbol = 'UNL'
-        df = stock_dataFrame(symbol)
-        df, model_path = prepare_data(df, symbol)
-        mape, test_mape, predicted_tomorrow_price_original = train_and_test(df, model_path)
+        symbols = ['UNL','BFC','NTC','CHDC','API',
+                  'CORBL','WNLB','ULBSL','NIMB','RBCL']
+        for symbol in symbols:
+            df = stock_dataFrame(symbol)
+            df, model_path = prepare_data(df, symbol)
+            mape, test_mape, predicted_tomorrow_price_original = train_and_test(df, model_path)
 
-        # Get the current date and time
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            # Get the current date and time
+            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Write test_mape and timestamp to a text file
-        with open("training_log.txt", "a") as file:  # Use "a" to append to the file
-            file.write(f"{current_time} - Test MAPE: {test_mape}\n")
+            # Write test_mape and timestamp to a text file
+            with open("training_log.txt", "a") as file:  # Use "a" to append to the file
+                file.write(f"{current_time} - Test MAPE: {test_mape}\n")
 
-        self.stdout.write(self.style.SUCCESS("Model retraining completed. Results logged in training_log.txt."))
+            self.stdout.write(self.style.SUCCESS("Model retraining completed. Results logged in training_log.txt."))
