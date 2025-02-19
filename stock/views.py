@@ -39,12 +39,7 @@ def symbol_view(request):
 
                 # Convert Plotly figure to HTML
                 plot_html = pio.to_html(fig, full_html=False)
-                
-                
-
-                
-                
-                    
+                  
                 
                 # Example processing logic (customize as needed)
                 result = {
