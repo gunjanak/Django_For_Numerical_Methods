@@ -80,7 +80,7 @@ def prepare_data(df,user_input):
     #     print("File exists")
     # else:
     #     print("File does not exist")
-    model_path = "price_forecaster_gru_l2_four_layers.pth"
+    model_path = "trained_models/feb_price_forecaster_gru_l2_four_layers.pth"
         
     
     print(df.head())
