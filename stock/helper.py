@@ -78,7 +78,7 @@ def prepare_data(df,user_input):
     # model_path = "/home/gopal/Documents/Django_For_Numerical_Methods/stock/trained_models/feb_price_forecaster_gru_l2_four_layers.pth"
         
     
-    print(df.head())
+    # print(df.head())
     
     return df,model_path
 
@@ -193,7 +193,7 @@ def just_test(df,model_path):
     n_days = 5
     predictions,test_mape = test_gru_model(model,df_test_normalized,n_days)
     predictions_original_scale = denormalize_with_sklearn(predictions,scaler_test, column_index=0)
-    print(f"Testing MAPE (Original Scale): {test_mape:.2f}%")
+    # print(f"Testing MAPE (Original Scale): {test_mape:.2f}%")
     predictions_series = pd.Series(predictions_original_scale, index=df_test.index[n_days:])
     predictions_series = predictions_series.rename('Predicted Value')
 
@@ -204,9 +204,9 @@ def just_test(df,model_path):
     # # print(merged_df)
     df_test = merged_df.dropna()
     # # # # Print the last few rows to verify
-    print("******* Actual vs Prediction **************")
+    # print("******* Actual vs Prediction **************")
     df_test = df_test[['Close','Predicted Value']]
-    print(df_test.tail())
+    # print(df_test.tail())
     
     
     
@@ -215,13 +215,13 @@ def just_test(df,model_path):
     with torch.no_grad():
         predicted_tomorrow_price = model(last_5_days_tensor).item()  # Get prediction
         print(predicted_tomorrow_price)
-        print(type(predicted_tomorrow_price))
+        # print(type(predicted_tomorrow_price))
 
     predicted_tomorrow_price = np.array(predicted_tomorrow_price)
     # # Denormalize the predicted price
     predicted_tomorrow_price_original = denormalize_with_sklearn(predicted_tomorrow_price, scaler_test, column_index=0)[0]
     
-    print(predicted_tomorrow_price_original)
+    # print(predicted_tomorrow_price_original)
     
     
     

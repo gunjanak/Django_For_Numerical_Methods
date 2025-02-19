@@ -6,6 +6,7 @@ import plotly.io as pio
 import base64
 from io import BytesIO
 
+
 from .forms import StockSymbolForm
 from .dataframe_nepse import stock_dataFrame
 from .helper import prepare_data,just_test,train_and_test
@@ -24,9 +25,10 @@ def symbol_view(request):
                 head = df_show.head()
                 tail = df_show.tail()
                 df,model_path = prepare_data(df,symbol)
-                print("**********************")
+                print("***********%%%%%%%%%%%%%%%%%%%%%%%***********")
                 # print(df.head())
                 print(f"Model_path:{model_path}")
+                
                 # test_mape = just_test(df,model_path)
                 # print(test_mape)
                 
@@ -49,6 +51,7 @@ def symbol_view(request):
                     'Test_MAPE':test_mape,
                     'Forcasted_Price':predicted_tomorrow_price_original, 
                     'plot_html': plot_html,
+                    'model_path':model_path,
                 }
                 
                 return render(request, 'stock.html', {'form':form,'result': result})
