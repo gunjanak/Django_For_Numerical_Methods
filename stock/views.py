@@ -25,8 +25,8 @@ def symbol_view(request):
                 tail = df_show.tail()
                 df,model_path = prepare_data(df,symbol)
                 print("**********************")
-                print(df.head())
-                print(model_path)
+                # print(df.head())
+                print(f"Model_path:{model_path}")
                 # test_mape = just_test(df,model_path)
                 # print(test_mape)
                 
