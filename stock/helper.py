@@ -74,8 +74,8 @@ def prepare_data(df,user_input):
 
     df = df.dropna()
     
-    model_path = "/home/janak/Documents/Django_NM/Django_For_Numerical_Methods/stock/trained_models/feb_price_forecaster_gru_l2_four_layers.pth"
-    # model_path = "/home/gopal/Documents/Django_For_Numerical_Methods/stock/trained_models/feb_price_forecaster_gru_l2_four_layers.pth"
+    # model_path = "/home/janak/Documents/Django_NM/Django_For_Numerical_Methods/stock/trained_models/feb_price_forecaster_gru_l2_four_layers.pth"
+    model_path = "/home/gopal/Documents/Django_For_Numerical_Methods/stock/trained_models/feb_price_forecaster_gru_l2_four_layers.pth"
         
     
     # print(df.head())
